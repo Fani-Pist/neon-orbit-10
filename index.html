@@ -72,25 +72,25 @@
     }
 
     .hud-pill {
-      background: rgba(15, 23, 42, 0.74);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 5px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 5px 8px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .icon-btn {
       pointer-events: auto;
-      background: rgba(15, 23, 42, 0.82);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       border-radius: 999px;
-      width: 31px;
-      height: 31px;
-      font-size: 13.5px;
+      width: 30px;
+      height: 30px;
+      font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,14 +99,21 @@
     }
 
     .icon-btn.muted { opacity: 0.45; }
-    #musicBtn,#soundBtn,#vibeBtn{display:none!important;}
-    #gameSettingsBtn{pointer-events:auto;}
-    #continueBtn[hidden]{display:none!important;}
-    @media (max-height:650px){#overlay{padding-top:10px;padding-bottom:38px}#trophy-display{font-size:38px}h1{font-size:22px}#awards-preview{max-height:38px}.btn-row{gap:5px}button.primary{padding:9px 18px}}
+    #musicBtn, #soundBtn, #vibeBtn { display: none !important; }
+    #gameSettingsBtn { pointer-events: auto; }
+    #continueBtn[hidden] { display: none !important; }
+    @media (max-height: 650px) {
+      #overlay { padding-top: 10px; padding-bottom: 38px; }
+      #trophy-display { font-size: 38px; }
+      h1 { font-size: 22px; }
+      #awards-preview { max-height: 38px; }
+      .btn-row { gap: 5px; }
+      button.primary { padding: 9px 18px; }
+    }
 
     #power-status {
       position: absolute;
-      top: 54px;
+      top: 52px;
       left: 12px;
       right: 12px;
       display: flex;
@@ -122,6 +129,17 @@
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .difficulty-badge {
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(74, 222, 128, 0.45);
+      border-radius: 12px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #4ade80;
     }
 
     .power-badge {
@@ -129,7 +147,7 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 12px;
       padding: 4px 9px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       display: none;
     }
@@ -144,7 +162,7 @@
       color: #fde047;
       border-radius: 12px;
       padding: 4px 9px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       display: none;
     }
@@ -152,9 +170,10 @@
     #combo-badge.active {
       display: inline-block;
     }
-#level-banner {
+
+    #level-banner {
       position: absolute;
-      top: 92px;
+      top: 90px;
       left: 50%;
       transform: translateX(-50%) translateY(-10px);
       background: rgba(15, 23, 42, 0.94);
@@ -299,7 +318,7 @@
       font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
-      max-width: 225px;
+      max-width: 245px;
     }
 
     .kids-toggle-box {
@@ -478,6 +497,7 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 7px;
       padding-right: 2px;
+      touch-action: pan-y;
     }
 
     .showcase-item {
@@ -487,11 +507,18 @@
       padding: 8px 10px;
       text-align: left;
       font-size: 11px;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
+
+    .showcase-item:active { transform: scale(0.94); }
+    .showcase-item.reward-card-pop { animation: cardRewardPop 0.55s ease; }
+    @keyframes cardRewardPop { 50% { transform: scale(1.07); filter: brightness(1.5); } }
 
     .showcase-item.unlocked {
       border-color: rgba(253, 224, 71, 0.45);
       background: rgba(30, 41, 59, 0.88);
+      box-shadow: inset 0 0 18px rgba(250, 204, 21, 0.13), 0 0 12px rgba(56, 189, 248, 0.12);
     }
 
     .showcase-item.milestone {
@@ -508,13 +535,59 @@
       color: #fde047;
     }
 
-    .showcase-item .s-award { font-weight:700; color:#e2e8f0; line-height:1.3; }
-    .showcase-art { position:relative; min-height:82px; margin:-1px 0 7px; border-radius:11px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:radial-gradient(circle at 50% 45%,rgba(125,211,252,.28),transparent 48%),linear-gradient(145deg,#312e81,#111827 72%); border:1px solid rgba(125,211,252,.28); box-shadow:inset 0 0 22px rgba(56,189,248,.12); }
-    .showcase-art:before,.showcase-art:after { content:"✦"; position:absolute; color:#fde68a; font-size:15px; text-shadow:0 0 9px #facc15; }
-    .showcase-art:before { left:14%; top:13%; } .showcase-art:after { right:14%; bottom:12%; }
-    .showcase-art .s-icon { font-size:43px; line-height:1; filter:drop-shadow(0 0 10px rgba(250,204,21,.65)); animation:rewardBounce 1.2s ease-in-out infinite alternate; }
-    .showcase-item:not(.unlocked) .showcase-art { filter:saturate(.55); opacity:.65; }
-    .showcase-item.unlocked .showcase-art { background:radial-gradient(circle at 50% 45%,rgba(250,204,21,.32),transparent 52%),linear-gradient(145deg,#4c1d95,#172554 72%); border-color:rgba(253,224,71,.55); }
+    .showcase-item .s-award {
+      font-weight: 700;
+      color: #e2e8f0;
+      line-height: 1.3;
+    }
+
+    .showcase-item.unlocked .s-award {
+      text-shadow: 0 0 12px rgba(250, 204, 21, 0.65);
+    }
+
+    .showcase-art {
+      position: relative;
+      min-height: 82px;
+      margin: -1px 0 7px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, .18), transparent 40%), radial-gradient(circle at 15% 85%, rgba(244, 114, 182, .16), transparent 34%), linear-gradient(145deg, #312e81, #111827 72%);
+      border: 1px solid rgba(125, 211, 252, .28);
+      box-shadow: inset 0 0 22px rgba(56, 189, 248, .12);
+    }
+
+    .showcase-art:before, .showcase-art:after {
+      content: "✦";
+      position: absolute;
+      color: #fde68a;
+      font-size: 15px;
+      text-shadow: 0 0 9px #facc15;
+    }
+
+    .showcase-art:before { left: 14%; top: 13%; }
+    .showcase-art:after { right: 14%; bottom: 12%; }
+    .showcase-item.unlocked .showcase-art {
+      background-image: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, .24), transparent 42%), radial-gradient(circle at 80% 20%, rgba(250, 204, 21, .22), transparent 34%), linear-gradient(145deg, #4c1d95, #172554 72%);
+      border-color: rgba(253, 224, 71, .55);
+    }
+
+    .award-mascot {
+      width: 72px;
+      height: 72px;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 5px 9px rgba(0, 0, 0, .35));
+      animation: mascotFloat 1.9s ease-in-out infinite;
+      transform-origin: 50% 70%;
+    }
+
+    .showcase-art .award-mascot { width: 78px; height: 78px; }
+    .reward-art .award-mascot { width: 48px; height: 48px; }
+    .finale-orbit .award-mascot { width: 22px; height: 22px; }
+    @keyframes mascotFloat { 0%, 100% { transform: translateY(2px) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
 
     #creator-signature {
       position: fixed;
@@ -530,75 +603,69 @@
       transform: rotate(-3deg);
     }
 
-    .crown-progress { color:#fde68a; border-color:rgba(250,204,21,.42); }
-    #reward-toast { position:absolute; z-index:15; bottom:calc(12% + 58px + env(safe-area-inset-bottom)); left:10px; right:auto; width:min(43%,170px); min-height:48px; padding:6px 8px; display:flex; align-items:center; gap:7px; text-align:left; border:1px solid rgba(253,224,71,.62); border-radius:14px; background:linear-gradient(115deg,rgba(39,31,75,.96),rgba(8,13,31,.94)); box-shadow:0 4px 18px rgba(250,204,21,.18); transform:translateY(10px) scale(.96); opacity:0; pointer-events:none; }
+    .crown-progress { color: #fde68a; border-color: rgba(250, 204, 21, .42); }
+    #reward-toast {
+      position: absolute;
+      z-index: 15;
+      bottom: calc(12% + 58px + env(safe-area-inset-bottom));
+      left: 10px;
+      right: auto;
+      width: min(45%, 180px);
+      min-height: 48px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-align: left;
+      border: 1px solid rgba(253, 224, 71, .62);
+      border-radius: 14px;
+      background: linear-gradient(115deg, rgba(39, 31, 75, .96), rgba(8, 13, 31, .94));
+      box-shadow: 0 4px 18px rgba(250, 204, 21, .18);
+      transform: translateY(10px) scale(.96);
+      opacity: 0;
+      pointer-events: none;
+    }
+
     #reward-toast.show { animation: rewardChipIn 2.8s ease both; }
-    .reward-glow { position:absolute; inset:-4px; border-radius:18px; background:linear-gradient(90deg,transparent,rgba(253,224,71,.2),transparent); filter:blur(8px); opacity:.55; z-index:-1; }
-    .reward-art { flex:0 0 auto; font-size:31px; line-height:1; filter:drop-shadow(0 0 8px #fde047); animation:rewardBounce .48s ease-in-out 2 alternate; }
-    .reward-copy { min-width:0; display:flex; flex-direction:column; align-items:flex-start; }
-    .reward-title { color:#fde68a; font-weight:900; letter-spacing:.8px; font-size:9px; }
-    .reward-name { color:white; font-size:11px; line-height:1.2; font-weight:800; margin-top:3px; }
-    .crown-piece-note { color:#67e8f9; font-size:9px; font-weight:800; margin-top:3px; }
-    @keyframes rewardChipIn { 0%{opacity:0;transform:translateY(10px) scale(.94)} 12%{opacity:1;transform:translateY(0) scale(1)} 78%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(8px) scale(.96)} }
-    @keyframes rewardBounce { from{transform:translateY(0) rotate(-7deg) scale(1)} to{transform:translateY(-4px) rotate(7deg) scale(1.12)} }
-    @keyframes spinReward { to{transform:rotate(360deg)} }
-    #finale-gathering { position:absolute; inset:0; z-index:11; pointer-events:none; display:none; overflow:hidden; }
-    #finale-gathering.show { display:block; }
-    .finale-orbit { position:absolute; left:50%; top:48%; width:min(78vw,340px); height:min(78vw,340px); transform:translate(-50%,-50%); border:1px dashed rgba(253,224,71,.45); border-radius:50%; animation:orbitSpin 18s linear infinite; }
-    .finale-orbit span { position:absolute; left:50%; top:-20px; transform:translateX(-50%); font-size:27px; filter:drop-shadow(0 0 9px #fde047); animation:orbitBob 1s ease-in-out infinite alternate; }
-    @keyframes orbitSpin { to{transform:translate(-50%,-50%) rotate(360deg)} }
-    @keyframes orbitBob { to{transform:translateX(-50%) scale(1.25) rotate(15deg)} }
-    .showcase-item { cursor:pointer; transition:transform .22s ease, box-shadow .22s ease; }
-    .showcase-item:active { transform:scale(.94); }
-    .showcase-item.reward-card-pop { animation:cardRewardPop .55s ease; }
-    @keyframes cardRewardPop { 50%{transform:scale(1.07);filter:brightness(1.5)} }
-    .showcase-item.unlocked { box-shadow:inset 0 0 18px rgba(250,204,21,.13),0 0 12px rgba(56,189,248,.12); }
-    .showcase-item.unlocked .s-award { text-shadow:0 0 12px rgba(250,204,21,.65); }
-    .award-mascot { width:72px; height:72px; display:block; overflow:visible; filter:drop-shadow(0 5px 9px rgba(0,0,0,.35)); animation:mascotFloat 1.9s ease-in-out infinite; transform-origin:50% 70%; }
-    .showcase-art .award-mascot { width:78px; height:78px; }
-    .reward-art .award-mascot { width:48px; height:48px; }
-    .finale-orbit .award-mascot { width:22px; height:22px; }
-    .mascot-spark { transform-origin:center; animation:mascotTwinkle 1.25s ease-in-out infinite alternate; }
-    .mascot-ear { transform-origin:center bottom; animation:mascotEar 1.7s ease-in-out infinite alternate; }
-    .showcase-item:nth-child(3n) .award-mascot { animation-delay:-.5s; }
-    .showcase-item:nth-child(4n) .award-mascot { animation-delay:-1s; }
-    @keyframes mascotFloat { 0%,100%{transform:translateY(2px) rotate(-3deg)} 50%{transform:translateY(-7px) rotate(3deg)} }
-    @keyframes mascotTwinkle { from{opacity:.45;transform:scale(.75) rotate(0)} to{opacity:1;transform:scale(1.2) rotate(18deg)} }
-    @keyframes mascotEar { from{transform:rotate(-7deg)} to{transform:rotate(8deg)} }
-    .showcase-art { background-image:radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),transparent 40%),radial-gradient(circle at 15% 85%,rgba(244,114,182,.16),transparent 34%),linear-gradient(145deg,#312e81,#111827 72%); }
-    .showcase-item.unlocked .showcase-art { background-image:radial-gradient(circle at 50% 42%,rgba(255,255,255,.24),transparent 42%),radial-gradient(circle at 80% 20%,rgba(250,204,21,.22),transparent 34%),linear-gradient(145deg,#4c1d95,#172554 72%); }
+    .reward-glow { position: absolute; inset: -4px; border-radius: 18px; background: linear-gradient(90deg, transparent, rgba(253, 224, 71, .2), transparent); filter: blur(8px); opacity: .55; z-index: -1; }
+    .reward-art { flex: 0 0 auto; font-size: 31px; line-height: 1; filter: drop-shadow(0 0 8px #fde047); }
+    .reward-copy { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+    .reward-title { color: #fde68a; font-weight: 900; letter-spacing: .8px; font-size: 9px; }
+    .reward-name { color: white; font-size: 11px; line-height: 1.2; font-weight: 800; margin-top: 3px; }
+    .crown-piece-note { color: #67e8f9; font-size: 9px; font-weight: 800; margin-top: 3px; }
+    @keyframes rewardChipIn { 0% { opacity: 0; transform: translateY(10px) scale(.94); } 12% { opacity: 1; transform: translateY(0) scale(1); } 78% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(8px) scale(.96); } }
 
+    #finale-gathering { position: absolute; inset: 0; z-index: 11; pointer-events: none; display: none; overflow: hidden; background: radial-gradient(circle, rgba(30, 41, 89, .35), rgba(2, 6, 23, .55)); }
+    #finale-gathering.show { display: block; }
+    .finale-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 8px; filter: drop-shadow(0 0 24px #fde047); animation: finaleBall .7s ease-in-out infinite alternate; text-align: center; }
+    .victory-ball { position: relative; width: clamp(82px, 22vw, 116px); height: clamp(82px, 22vw, 116px); border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 32% 25%, #baf7ff 0, #38bdf8 35%, #1479bd 72%, #082f63 100%); border: 4px solid #e0faff; box-shadow: 0 0 22px #38bdf8, inset -8px -10px 18px #082f6388; }
+    .victory-face { font-size: clamp(40px, 11vw, 58px); filter: drop-shadow(0 2px 2px #075985); }
+    .victory-crown { position: absolute; z-index: 2; top: -32%; left: 50%; transform: translateX(-50%) rotate(-5deg); font-size: clamp(38px, 10vw, 55px); filter: drop-shadow(0 0 10px #fde047); }
+    .finale-center small { display: block; text-align: center; font-size: clamp(12px, 3.3vw, 16px); color: #fde68a; font-weight: 1000; letter-spacing: 1.5px; text-shadow: 0 2px 8px #000; }
+    .victory-subtitle { font-size: clamp(11px, 2.8vw, 14px); font-weight: 1000; color: #fff; text-shadow: 0 2px 8px #000; }
+    @keyframes finaleBall { to { transform: translate(-50%, -50%) scale(1.13) rotate(5deg); } }
+    .finale-orbit { position: absolute; left: 50%; top: 48%; width: min(94vw, 430px); height: min(94vw, 430px); transform: translate(-50%, -50%); animation: orbitSpin 18s linear infinite; }
+    .finale-orbit span { position: absolute; left: 50%; top: 50%; transform: rotate(var(--a)) translateY(calc(-1 * min(43vw, 195px))) rotate(calc(-1 * var(--a))); animation: partyDance .7s ease-in-out infinite alternate; animation-delay: var(--d); filter: drop-shadow(0 0 9px #fde047); }
+    .finale-orbit .award-mascot { width: clamp(30px, 8vw, 42px); height: clamp(30px, 8vw, 42px); }
+    @keyframes orbitSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    @keyframes partyDance { to { margin-top: -15px; scale: 1.35; rotate: 12deg; filter: drop-shadow(0 0 17px #fff); } }
 
-    .extra-modal{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(2,6,23,.88);backdrop-filter:blur(10px)}
-    .extra-modal.open{display:flex}
-    .extra-panel{width:min(100%,390px);max-height:88%;overflow:auto;padding:22px;border:1px solid rgba(103,232,249,.45);border-radius:25px;background:linear-gradient(150deg,#172554,#090d20 72%);box-shadow:0 0 35px #0ea5e955;text-align:left}
-    .extra-panel h2{text-align:center;color:#fde68a;margin:0 0 12px;font-size:23px}
-    .extra-panel p,.extra-panel li{font-size:13px;line-height:1.65;color:#dbeafe}
-    .extra-panel ul{padding-left:20px}
-    .extra-panel .btn-row{margin-top:16px}
-    .settings-line{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid #ffffff20;color:#e0f2fe;font-size:14px}
-    .settings-line input{width:21px;height:21px;accent-color:#38bdf8}
-    #continueBtn:disabled{opacity:.4;filter:grayscale(1)}
-    #finale-gathering{background:radial-gradient(circle,rgba(30,41,89,.35),rgba(2,6,23,.55))}
-    .finale-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:8px;filter:drop-shadow(0 0 24px #fde047);animation:finaleBall .7s ease-in-out infinite alternate;text-align:center}
-    .victory-ball{position:relative;width:clamp(82px,22vw,116px);height:clamp(82px,22vw,116px);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 25%,#baf7ff 0,#38bdf8 35%,#1479bd 72%,#082f63 100%);border:4px solid #e0faff;box-shadow:0 0 22px #38bdf8, inset -8px -10px 18px #082f6388}
-    .victory-face{font-size:clamp(40px,11vw,58px);filter:drop-shadow(0 2px 2px #075985)}
-    .victory-crown{position:absolute;z-index:2;top:-32%;left:50%;transform:translateX(-50%) rotate(-5deg);font-size:clamp(38px,10vw,55px);filter:drop-shadow(0 0 10px #fde047)}
-    .finale-center small{display:block;text-align:center;font-size:clamp(12px,3.3vw,16px);color:#fde68a;font-weight:1000;letter-spacing:1.5px;text-shadow:0 2px 8px #000}
-    .victory-subtitle{font-size:clamp(11px,2.8vw,14px);font-weight:1000;color:#fff;text-shadow:0 2px 8px #000}
-    @keyframes finaleBall{to{transform:translate(-50%,-50%) scale(1.13) rotate(5deg)}}
-    .finale-orbit span{font-size:clamp(17px,4vw,28px)}
-    .finale-full{width:min(94vw,430px);height:min(94vw,430px);border:0}
-    .finale-full span{position:absolute;left:50%;top:50%;transform:rotate(var(--a)) translateY(calc(-1 * min(43vw,195px))) rotate(calc(-1 * var(--a)));animation:partyDance .7s ease-in-out infinite alternate;animation-delay:var(--d);filter:drop-shadow(0 0 9px #fde047)}
-    .finale-full .award-mascot{width:clamp(30px,8vw,42px);height:clamp(30px,8vw,42px)}
-    @keyframes partyDance{to{margin-top:-15px;scale:1.35;rotate:12deg;filter:drop-shadow(0 0 17px #fff)}}
-    @media(max-width:480px){.finale-full{width:94vw;height:94vw}.finale-full span{transform:rotate(var(--a)) translateY(-42vw) rotate(calc(-1 * var(--a)))}}
-    #miniCollectionBtn{position:absolute;z-index:8;left:10px;bottom:max(12px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:5px;padding:7px 10px;border-radius:13px;border:1px solid rgba(253,224,71,.5);background:rgba(15,23,42,.86);color:#fde68a;font:800 11px "Plus Jakarta Sans",sans-serif;box-shadow:0 0 14px rgba(250,204,21,.18);cursor:pointer;touch-action:manipulation}
-    #miniCollectionIcons{display:flex;align-items:center;gap:0;margin-right:2px}
-    #miniCollectionIcons .award-mascot{width:22px;height:22px;margin-left:-3px}
-    #game-message{position:absolute;z-index:9;left:50%;bottom:12%;transform:translateX(-50%);width:max-content;max-width:86%;padding:11px 16px;border:1px solid #67e8f9aa;border-radius:18px;background:#07152bea;color:#fff;text-align:center;font-size:13px;font-weight:800;box-shadow:0 0 20px #38bdf855;opacity:0;pointer-events:none;transition:opacity .25s}
-    #game-message.show{opacity:1}
+    .extra-modal { position: absolute; inset: 0; z-index: 30; display: none; align-items: center; justify-content: center; padding: 22px; background: rgba(2, 6, 23, .88); backdrop-filter: blur(10px); }
+    .extra-modal.open { display: flex; }
+    .extra-panel { width: min(100%, 390px); max-height: 88%; overflow: auto; padding: 22px; border: 1px solid rgba(103, 232, 249, .45); border-radius: 25px; background: linear-gradient(150deg, #172554, #090d20 72%); box-shadow: 0 0 35px #0ea5e955; text-align: left; }
+    .extra-panel h2 { text-align: center; color: #fde68a; margin: 0 0 12px; font-size: 23px; }
+    .extra-panel p, .extra-panel li { font-size: 13px; line-height: 1.65; color: #dbeafe; }
+    .extra-panel ul { padding-left: 20px; }
+    .extra-panel .btn-row { margin-top: 16px; }
+    .settings-line { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 4px; border-bottom: 1px solid #ffffff20; color: #e0f2fe; font-size: 14px; }
+    .settings-line input { width: 21px; height: 21px; accent-color: #38bdf8; }
+    #continueBtn:disabled { opacity: .4; filter: grayscale(1); }
 
+    #miniCollectionBtn { position: absolute; z-index: 8; left: 10px; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 5px; padding: 7px 10px; border-radius: 13px; border: 1px solid rgba(253, 224, 71, .5); background: rgba(15, 23, 42, .86); color: #fde68a; font: 800 11px "Plus Jakarta Sans", sans-serif; box-shadow: 0 0 14px rgba(250, 204, 21, .18); cursor: pointer; touch-action: manipulation; }
+    #miniCollectionIcons { display: flex; align-items: center; gap: 0; margin-right: 2px; }
+    #miniCollectionIcons .award-mascot { width: 22px; height: 22px; margin-left: -3px; }
+    #game-message { position: absolute; z-index: 9; left: 50%; bottom: 12%; transform: translateX(-50%); width: max-content; max-width: 86%; padding: 11px 16px; border: 1px solid #67e8f9aa; border-radius: 18px; background: #07152bea; color: #fff; text-align: center; font-size: 13px; font-weight: 800; box-shadow: 0 0 20px #38bdf855; opacity: 0; pointer-events: none; transition: opacity .25s; }
+    #game-message.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -608,8 +675,7 @@
     <div id="hud">
       <div class="hud-group">
         <div class="hud-pill" id="levelHud">Πίστα 1/10</div>
-        <div class="hud-pill" id="difficultyHud">Δυσκολία: Εύκολη</div>
-        <div class="hud-pill" id="scoreHud">Σκορ: 0 / 5</div>
+        <div class="hud-pill" id="scoreHud">Σκορ: 0 / 16</div>
         <div class="hud-pill crown-progress" id="crownProgressHud">👑 0/10</div>
       </div>
       <div class="hud-group">
@@ -621,6 +687,7 @@
 
     <div id="power-status">
       <div class="power-left">
+        <div class="difficulty-badge" id="difficultyHud">🟢 Εύκολη</div>
         <div class="power-badge" id="shieldBadge" style="color:#67e8f9;">🛡️ Ασπίδα</div>
         <div class="power-badge" id="magnetBadge" style="color:#f472b6;">🧲 Μαγνήτης</div>
       </div>
@@ -628,11 +695,12 @@
     </div>
 
     <div id="level-banner">
-      <div class="b-title" id="bannerTitle">Πίστα 1: Cyber Ocean</div>
+      <div class="b-title" id="bannerTitle">Πίστα 1: Aqua Splash</div>
       <div class="b-sub" id="bannerSub">Δώρο πίστας: 🥉 Βραβείο Πίστας 1</div>
       <div class="b-quote" id="bannerQuote">Πάμε όμορφα και χαλαρά!</div>
     </div>
-<div id="reward-toast" aria-live="polite">
+
+    <div id="reward-toast" aria-live="polite">
       <div class="reward-glow"></div>
       <div class="reward-art" id="reward-art">🏆</div>
       <div class="reward-copy">
@@ -656,7 +724,7 @@
       <div id="trophy-display">😊</div>
       <h1 id="title">Neon Orbit</h1>
       <p id="subtitle">Μια μαγική διαστημική περιπέτεια με 10 μοναδικούς κόσμους!</p>
-      <div id="giftTeaser" class="gift-teaser">🎁 Στην Πίστα 5 σε περιμένει: 🌟 Αστέρι Νόβα</div>
+      <div id="giftTeaser" class="gift-teaser">🎁 Στην Πίστα 5 σε περιμένει: 🌟 Αστέρι Δώρου Πίστας 5</div>
 
       <div class="level-select-row">
         <label for="startLevelSelect">Εκκίνηση:</label>
@@ -665,7 +733,7 @@
 
       <label class="kids-toggle-box" for="kidsModeToggle">
         <input type="checkbox" id="kidsModeToggle" />
-        <span>🧸 Παιδική Λειτουργία (έξτρα αργά &amp; τεράστια κενά)</span>
+        <span>🧸 Παιδική Λειτουργία (έξτρα αργά &amp; μεγάλα κενά)</span>
       </label>
 
       <div id="awards-summary"></div>
@@ -676,31 +744,30 @@
         <button id="restartBtn" class="secondary">↻ Από την Αρχή</button>
         <button id="tutorialBtn" class="secondary">❔ Πώς παίζεται</button>
         <button id="settingsBtn" class="secondary">⚙️ Ρυθμίσεις</button>
-        <button id="showcaseBtn" class="secondary">🏆 Βιτρίνα Βραβείων (0/10)</button>
+        <button id="showcaseBtn" class="secondary">🏆 Βιβλιοθήκη Βραβείων (0/10)</button>
         <button id="installBtn" class="secondary" style="display:none;">📲 Εγκατάσταση στο Κινητό</button>
       </div>
       <div id="install-hint"></div>
     </div>
 
-
-
     <button id="miniCollectionBtn" aria-label="Άνοιγμα βιβλιοθήκης βραβείων"><span id="miniCollectionIcons"></span>🏆 <span id="miniCollectionCount">0/10</span></button>
     <div id="game-message" aria-live="polite"></div>
+
     <div id="tutorialModal" class="extra-modal">
       <div class="extra-panel">
         <h2>🚀 Πώς παίζεται το Neon Orbit</h2>
-        <p><b>Στόχος:</b> Οδήγησε τη χαμογελαστή μπάλα μέσα από τις 10 πίστες, μάζεψε τα φωτεινά μπόνους και απόφυγε τα κάθετα εμπόδια.</p>
+        <p><b>Στόχος:</b> Οδήγησε τη χαμογελαστή μπάλα μέσα από τις 10 πίστες, μάζεψε τα φωτεινά μπόνους και συγχρονίσου με τις μπάρες που ανεβοκατεβαίνουν συνεχώς.</p>
         <ul>
           <li><b>Άγγιξε και κράτησε</b> την οθόνη για να ανέβει η μπάλα.</li>
           <li><b>Άφησε</b> την οθόνη για να κατέβει ομαλά.</li>
-          <li>Πέρασε από το άνοιγμα ανάμεσα στις κάθετες μπάρες.</li>
-          <li>Μάζευε αστέρια και μπόνους για πόντους, ασπίδα και μαγνήτη.</li>
+          <li>Οι μπάρες ανεβοκατεβαίνουν διαρκώς πάνω–κάτω με διαφορετικό ρυθμό και εύρος.</li>
+          <li>Όσο προχωράς: στενότερα ανοίγματα, γρηγορότερες μπάρες, συχνότερα εμπόδια.</li>
           <li>Κάθε πίστα δίνει ένα βραβείο και ένα κομμάτι από το στέμμα. Στην 10η πίστα ολοκληρώνεις το στέμμα!</li>
         </ul>
-        <p>Πάτησε ⏸️ για παύση. Από το μενού μπορείς να συνεχίσεις την πρόοδό σου ή να αρχίσεις από την αρχή.</p>
         <div class="btn-row"><button class="primary" id="closeTutorialBtn">Το κατάλαβα!</button></div>
       </div>
     </div>
+
     <div id="settingsModal" class="extra-modal">
       <div class="extra-panel">
         <h2>⚙️ Ρυθμίσεις παιχνιδιού</h2>
@@ -730,7 +797,6 @@
   </div>
 
   <div id="creator-signature">Fani Pist</div>
-  <!-- Εσωτερικά στοιχεία ελέγχου ήχου που χρησιμοποιεί ο κώδικας ρυθμίσεων. -->
   <div hidden aria-hidden="true">
     <button id="soundBtn" type="button">🔊</button>
     <button id="musicBtn" type="button">🎵</button>
@@ -738,7 +804,7 @@
   </div>
 
   <script>
-    // Ασφαλής αποθήκευση: ορισμένοι browsers μπλοκάρουν το localStorage σε τοπικά HTML αρχεία.
+    // Ασφαλής αποθήκευση
     const safeStorage = (() => {
       const memory = Object.create(null);
       return {
@@ -747,129 +813,126 @@
         removeItem(key) { try { window.localStorage.removeItem(key); } catch (_) { delete memory[key]; } }
       };
     })();
-    // --- 1. ΕΛΚΥΣΤΙΚΟ ΕΙΚΟΝΙΔΙΟ ΜΠΑΛΑΣ ΣΕ ΤΡΟΧΙΑ & PWA MANIFEST ---
+
+    // --- 1. ΕΙΚΟΝΙΔΙΟ ΜΠΑΛΑΣ ΣΕ ΤΡΟΧΙΑ & PWA MANIFEST ---
     let ballIconDataUrl = "";
     function generateBallIcon() {
-      const iconCanvas = document.createElement("canvas");
-      iconCanvas.width = 512;
-      iconCanvas.height = 512;
-      const ictx = iconCanvas.getContext("2d");
+      try {
+        const iconCanvas = document.createElement("canvas");
+        iconCanvas.width = 512;
+        iconCanvas.height = 512;
+        const ictx = iconCanvas.getContext("2d");
 
-      const bgGrad = ictx.createRadialGradient(256, 220, 30, 256, 256, 340);
-      bgGrad.addColorStop(0, "#1e1b4b");
-      bgGrad.addColorStop(0.55, "#0b1120");
-      bgGrad.addColorStop(1, "#04070f");
-      ictx.fillStyle = bgGrad;
-      ictx.fillRect(0, 0, 512, 512);
+        const bgGrad = ictx.createRadialGradient(256, 220, 30, 256, 256, 340);
+        bgGrad.addColorStop(0, "#1e1b4b");
+        bgGrad.addColorStop(0.55, "#0b1120");
+        bgGrad.addColorStop(1, "#04070f");
+        ictx.fillStyle = bgGrad;
+        ictx.fillRect(0, 0, 512, 512);
 
-      const dots = [
-        [96, 112, 4, "#bae6fd"],
-        [418, 128, 5, "#fde047"],
-        [114, 396, 4.5, "#f472b6"],
-        [406, 382, 4, "#34d399"],
-        [256, 72, 3.5, "#ffffff"]
-      ];
-      for (const [dx, dy, dr, dc] of dots) {
-        ictx.fillStyle = dc;
+        const dots = [
+          [96, 112, 4, "#bae6fd"],
+          [418, 128, 5, "#fde047"],
+          [114, 396, 4.5, "#f472b6"],
+          [406, 382, 4, "#34d399"],
+          [256, 72, 3.5, "#ffffff"]
+        ];
+        for (const [dx, dy, dr, dc] of dots) {
+          ictx.fillStyle = dc;
+          ictx.beginPath();
+          ictx.arc(dx, dy, dr, 0, Math.PI * 2);
+          ictx.fill();
+        }
+
+        ictx.save();
+        ictx.translate(256, 256);
+        ictx.rotate(-0.28);
+        ictx.strokeStyle = "rgba(125, 211, 252, 0.58)";
+        ictx.lineWidth = 7;
         ictx.beginPath();
-        ictx.arc(dx, dy, dr, 0, Math.PI * 2);
+        ictx.ellipse(0, 0, 194, 86, 0, 0, Math.PI * 2);
+        ictx.stroke();
+        ictx.restore();
+
+        const glow = ictx.createRadialGradient(256, 256, 25, 256, 256, 175);
+        glow.addColorStop(0, "rgba(56, 189, 248, 0.65)");
+        glow.addColorStop(1, "rgba(56, 189, 248, 0)");
+        ictx.fillStyle = glow;
+        ictx.beginPath();
+        ictx.arc(256, 256, 175, 0, Math.PI * 2);
         ictx.fill();
-      }
 
-      ictx.save();
-      ictx.translate(256, 256);
-      ictx.rotate(-0.28);
-      ictx.strokeStyle = "rgba(125, 211, 252, 0.58)";
-      ictx.lineWidth = 7;
-      ictx.beginPath();
-      ictx.ellipse(0, 0, 194, 86, 0, 0, Math.PI * 2);
-      ictx.stroke();
-      ictx.restore();
+        const ballGrad = ictx.createRadialGradient(212, 208, 18, 256, 256, 116);
+        ballGrad.addColorStop(0, "#f0f9ff");
+        ballGrad.addColorStop(0.45, "#38bdf8");
+        ballGrad.addColorStop(1, "#0369a1");
+        ictx.fillStyle = ballGrad;
+        ictx.beginPath();
+        ictx.arc(256, 256, 116, 0, Math.PI * 2);
+        ictx.fill();
 
-      const glow = ictx.createRadialGradient(256, 256, 25, 256, 256, 175);
-      glow.addColorStop(0, "rgba(56, 189, 248, 0.65)");
-      glow.addColorStop(1, "rgba(56, 189, 248, 0)");
-      ictx.fillStyle = glow;
-      ictx.beginPath();
-      ictx.arc(256, 256, 175, 0, Math.PI * 2);
-      ictx.fill();
+        ictx.fillStyle = "#082033";
+        ictx.beginPath();
+        ictx.arc(222, 239, 10, 0, Math.PI * 2);
+        ictx.arc(286, 239, 10, 0, Math.PI * 2);
+        ictx.fill();
+        ictx.strokeStyle = "#082033";
+        ictx.lineWidth = 8;
+        ictx.lineCap = "round";
+        ictx.beginPath();
+        ictx.arc(254, 245, 43, 0.15 * Math.PI, 0.85 * Math.PI);
+        ictx.stroke();
 
-      const ballGrad = ictx.createRadialGradient(212, 208, 18, 256, 256, 116);
-      ballGrad.addColorStop(0, "#f0f9ff");
-      ballGrad.addColorStop(0.45, "#38bdf8");
-      ballGrad.addColorStop(1, "#0369a1");
-      ictx.fillStyle = ballGrad;
-      ictx.beginPath();
-      ictx.arc(256, 256, 116, 0, Math.PI * 2);
-      ictx.fill();
+        ictx.save();
+        ictx.translate(256, 112);
+        ictx.shadowColor = "#facc15";
+        ictx.shadowBlur = 22;
+        const crown = ictx.createLinearGradient(0, -35, 0, 30);
+        crown.addColorStop(0, "#fff7ae");
+        crown.addColorStop(.45, "#facc15");
+        crown.addColorStop(1, "#b7791f");
+        ictx.fillStyle = crown;
+        ictx.strokeStyle = "#fff1a6";
+        ictx.lineWidth = 5;
+        ictx.beginPath();
+        ictx.moveTo(-76, 18);
+        ictx.lineTo(-66, -30);
+        ictx.lineTo(-25, 0);
+        ictx.lineTo(0, -48);
+        ictx.lineTo(27, 0);
+        ictx.lineTo(67, -30);
+        ictx.lineTo(77, 18);
+        ictx.closePath();
+        ictx.fill();
+        ictx.stroke();
+        ictx.fillStyle = "#fff1a6";
+        ictx.fillRect(-76, 18, 153, 19);
+        ictx.fillStyle = "#fb7185";
+        ictx.beginPath();
+        ictx.arc(0, 10, 9, 0, Math.PI * 2);
+        ictx.fill();
+        ictx.restore();
 
-      // Το ίδιο χαμογελαστό πρόσωπο της μπάλας του παιχνιδιού
-      ictx.fillStyle = "#082033";
-      ictx.beginPath();
-      ictx.arc(222, 239, 10, 0, Math.PI * 2);
-      ictx.arc(286, 239, 10, 0, Math.PI * 2);
-      ictx.fill();
-      ictx.strokeStyle = "#082033";
-      ictx.lineWidth = 8;
-      ictx.lineCap = "round";
-      ictx.beginPath();
-      ictx.arc(254, 245, 43, 0.15 * Math.PI, 0.85 * Math.PI);
-      ictx.stroke();
-      // Χρυσό στέμμα πάνω από τη χαμογελαστή μπλε μπάλα
-      ictx.save(); ictx.translate(256, 112);
-      ictx.shadowColor = "#facc15"; ictx.shadowBlur = 22;
-      const crown = ictx.createLinearGradient(0, -35, 0, 30);
-      crown.addColorStop(0, "#fff7ae"); crown.addColorStop(.45, "#facc15"); crown.addColorStop(1, "#b7791f");
-      ictx.fillStyle = crown; ictx.strokeStyle = "#fff1a6"; ictx.lineWidth = 5;
-      ictx.beginPath(); ictx.moveTo(-76, 18); ictx.lineTo(-66, -30); ictx.lineTo(-25, 0); ictx.lineTo(0, -48); ictx.lineTo(27, 0); ictx.lineTo(67, -30); ictx.lineTo(77, 18); ictx.closePath(); ictx.fill(); ictx.stroke();
-      ictx.fillStyle = "#fff1a6"; ictx.fillRect(-76, 18, 153, 19);
-      ictx.fillStyle = "#fb7185"; ictx.beginPath(); ictx.arc(0, 10, 9, 0, Math.PI*2); ictx.fill();
-      ictx.restore();
+        ballIconDataUrl = iconCanvas.toDataURL("image/png");
+        document.getElementById("apple-icon").href = ballIconDataUrl;
+        document.getElementById("favicon").href = ballIconDataUrl;
 
-      ballIconDataUrl = iconCanvas.toDataURL("image/png");
-      document.getElementById("apple-icon").href = ballIconDataUrl;
-      document.getElementById("favicon").href = ballIconDataUrl;
-
-      const manifestObj = {
-        name: "Neon Orbit",
-        short_name: "Neon Orbit",
-        description: "10 πίστες, νέα μπάλα, δώρα και βιτρίνα βραβείων!",
-        start_url: window.location.href,
-        display: "standalone",
-        orientation: "portrait",
-        background_color: "#070b14",
-        theme_color: "#070b14",
-        icons: [
-          {
-            src: ballIconDataUrl,
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable"
-          }
-        ]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
-      document.getElementById("dynamic-manifest").href = URL.createObjectURL(manifestBlob);
+        const manifestObj = {
+          name: "Neon Orbit",
+          short_name: "Neon Orbit",
+          description: "10 πίστες, κινούμενες μπάρες, δώρα και βιτρίνα βραβείων!",
+          start_url: window.location.href,
+          display: "standalone",
+          orientation: "portrait",
+          background_color: "#070b14",
+          theme_color: "#070b14",
+          icons: [{ src: ballIconDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
+        document.getElementById("dynamic-manifest").href = URL.createObjectURL(manifestBlob);
+      } catch (err) {}
     }
     generateBallIcon();
-
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        const swCode = `
-          self.addEventListener("install", (event) => {
-            self.skipWaiting();
-          });
-          self.addEventListener("activate", (event) => {
-            event.waitUntil(self.clients.claim());
-          });
-          self.addEventListener("fetch", (event) => {
-            event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
-          });
-        `;
-        const swBlob = new Blob([swCode], { type: "application/javascript" });
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
-      });
-    }
 
     let deferredPrompt = null;
     const installBtn = document.getElementById("installBtn");
@@ -917,12 +980,8 @@
     function unlockAudio() {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) return;
-      if (!audioCtx) {
-        audioCtx = new AudioContextClass();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === "suspended") audioCtx.resume();
       try {
         const buffer = audioCtx.createBuffer(1, 1, 22050);
         const source = audioCtx.createBufferSource();
@@ -934,38 +993,6 @@
 
     ["touchstart", "pointerdown", "click"].forEach((evt) => {
       window.addEventListener(evt, unlockAudio, { passive: true });
-    });
-
-    soundBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      soundEnabled = !soundEnabled;
-      safeStorage.setItem("orbit100_sound", String(soundEnabled));
-      soundBtn.classList.toggle("muted", !soundEnabled);
-      soundBtn.textContent = soundEnabled ? "🔊" : "🔇";
-      if (soundEnabled) {
-        unlockAudio();
-        playTone(520, 0.08, "sine", 0.15);
-      }
-    });
-
-    musicBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      musicEnabled = !musicEnabled;
-      safeStorage.setItem("orbit100_music", String(musicEnabled));
-      musicBtn.classList.toggle("muted", !musicEnabled);
-      if (musicEnabled && gameRunning && !paused) {
-        startHappyMusic();
-      } else {
-        stopHappyMusic();
-      }
-    });
-
-    vibeBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      vibeEnabled = !vibeEnabled;
-      safeStorage.setItem("orbit100_vibe", String(vibeEnabled));
-      vibeBtn.classList.toggle("muted", !vibeEnabled);
-      if (vibeEnabled) vibrateDevice(25);
     });
 
     function playTone(freq, duration, type = "sine", volume = 0.18, delay = 0) {
@@ -997,12 +1024,6 @@
       587.33, 783.99, 987.77, 783.99,
       659.25, 783.99, 659.25, 523.25
     ];
-
-    musicBtn.textContent = musicEnabled ? "🎵" : "🔇";
-    soundBtn.textContent = soundEnabled ? "🔊" : "🔇";
-    vibeBtn.classList.toggle("muted", !vibeEnabled);
-    musicBtn.classList.toggle("muted", !musicEnabled);
-    soundBtn.classList.toggle("muted", !soundEnabled);
 
     function startHappyMusic() {
       stopHappyMusic();
@@ -1096,34 +1117,30 @@
       vibrateDevice(120);
     }
 
-    // --- 3. 10 ΠΙΣΤΕΣ, ΔΩΡΑ, ΣΤΥΛ ΜΠΑΛΑΣ & ΘΕΤΙΚΑ ΜΗΝΥΜΑΤΑ ---
+    // --- 3. 10 ΠΙΣΤΕΣ ΜΕ ΠΙΟ ΑΠΑΙΤΗΤΙΚΗ ΚΛΙΜΑΚΩΣΗ & ΚΙΝΟΥΜΕΝΕΣ ΜΠΑΡΕΣ ---
     const TOTAL_LEVELS = 10;
 
     const NAMED_WORLDS = [
-      "Aqua Kitty Kingdom",
-      "Emerald Star Forest",
-      "Sunny Fox Valley",
-      "Violet Crystal Palace",
-      "Golden Flower Garden",
-      "Frost Cloud Kingdom",
-      "Lava Dragon Realm",
-      "Jungle Butterfly Grove",
-      "Candy Heart Wonderland",
-      "Crowned Cosmic Galaxy"
-    ];
-
-    const WORLD_PREFIXES = [
-      "Aqua", "Prism", "Stellar", "Pulse", "Aurora", "Mirage", "Nova", "Crystal", "Echo", "Zenith"
+      "Aqua Splash",
+      "Emerald Garden",
+      "Solar Rose",
+      "Violet Crystal",
+      "Golden Rush",
+      "Arctic Challenge",
+      "Crimson Flame",
+      "Jade Storm",
+      "Candy Rush",
+      "Royal Crown"
     ];
 
     const POSITIVE_QUOTES = [
-      "Πάμε όμορφα και χαλαρά!",
+      "Πάμε όμορφα και δυναμικά!",
       "Είσαι σε υπέροχη τροχιά!",
-      "Κάθε πίστα σου ανήκει!",
+      "Συγχρονίσου με τις μπάρες!",
       "Τι ωραία που προχωράς!",
       "Φωτεινή συνέχεια μπροστά σου!",
       "Μπράβο, έχεις απίθανο ρυθμό!",
-      "Λίγη χαρά και ένα βήμα πιο ψηλά!",
+      "Πρόσεξε τα στενά περάσματα!",
       "Πετάς με στυλ μέσα στο διάστημα!"
     ];
 
@@ -1137,84 +1154,63 @@
       return `${icon} Βραβείο Πίστας ${num}`;
     }
 
+    function getDifficultyMeta(levelNum) {
+      if (levelNum <= 2) return { label: "🟢 Εύκολη", color: "#4ade80", border: "rgba(74, 222, 128, 0.45)" };
+      if (levelNum <= 4) return { label: "🟡 Κανονική", color: "#facc15", border: "rgba(250, 204, 21, 0.45)" };
+      if (levelNum <= 6) return { label: "🟠 Μέτρια+", color: "#fb923c", border: "rgba(251, 146, 60, 0.5)" };
+      if (levelNum <= 8) return { label: "🔴 Δύσκολη", color: "#f87171", border: "rgba(248, 113, 113, 0.55)" };
+      return { label: "🔥 Πολύ δύσκολη", color: "#fda4af", border: "rgba(244, 63, 94, 0.7)" };
+    }
+
     function buildAllLevels() {
       const list = [];
       let cumulativeTarget = 0;
 
+      const presets = [
+        { bgTop: "#3920a8", bgBottom: "#100b35", ball: "#38bdf8", glow: "rgba(56,189,248,0.7)", obs: "#f43f8e", acc: "#fda4af", star: "#bae6fd" },
+        { bgTop: "#087a91", bgBottom: "#062b49", ball: "#34d399", glow: "rgba(52,211,153,0.7)", obs: "#f59e0b", acc: "#fde68a", star: "#6ee7b7" },
+        { bgTop: "#9b286f", bgBottom: "#310d46", ball: "#fb923c", glow: "rgba(251,146,60,0.7)", obs: "#22d3ee", acc: "#cffafe", star: "#fdba74" },
+        { bgTop: "#6425b8", bgBottom: "#1c104c", ball: "#e879f9", glow: "rgba(232,121,249,0.7)", obs: "#22d3ee", acc: "#cffafe", star: "#f5d0fe" },
+        { bgTop: "#9a4a19", bgBottom: "#38152e", ball: "#fde047", glow: "rgba(253,224,71,0.75)", obs: "#fb7185", acc: "#ffe4e6", star: "#fef08a" },
+        { bgTop: "#126bc2", bgBottom: "#08284f", ball: "#e0f2fe", glow: "rgba(224,242,254,0.75)", obs: "#38bdf8", acc: "#bae6fd", star: "#7dd3fc" },
+        { bgTop: "#b52e42", bgBottom: "#42132d", ball: "#ff5722", glow: "rgba(255,87,34,0.75)", obs: "#a78bfa", acc: "#ddd6fe", star: "#fdba74" },
+        { bgTop: "#167e78", bgBottom: "#073b46", ball: "#a3e635", glow: "rgba(163,230,53,0.7)", obs: "#2dd4bf", acc: "#99f6e4", star: "#bef264" },
+        { bgTop: "#ad277e", bgBottom: "#3b104b", ball: "#f472b6", glow: "rgba(244,114,182,0.75)", obs: "#818cf8", acc: "#e0e7ff", star: "#fbcfe8" },
+        { bgTop: "#5520b8", bgBottom: "#170b42", ball: "#ffffff", glow: "rgba(255,255,255,0.8)", obs: "#eab308", acc: "#fef08a", star: "#f0abfc" }
+      ];
+
       for (let i = 0; i < TOTAL_LEVELS; i++) {
         const num = i + 1;
-        const pointsNeededForLevel = 16 + Math.min(12, Math.floor(i / 8));
+        const pointsNeededForLevel = 16 + Math.min(12, Math.floor(i / 4));
         cumulativeTarget += pointsNeededForLevel;
-
-        let name;
-        let bgTop;
-        let bgBottom;
-        let ballColor;
-        let ballGlow;
-        let obsColor;
-        let obsAccent;
-        let starColor;
-
-        if (i < NAMED_WORLDS.length) {
-          const presets = [
-            { bgTop: "#0c192c", bgBottom: "#060b16", ball: "#38bdf8", glow: "rgba(56,189,248,0.6)", obs: "#f43f5e", acc: "#fda4af", star: "#7dd3fc" },
-            { bgTop: "#06241d", bgBottom: "#040d0b", ball: "#34d399", glow: "rgba(52,211,153,0.6)", obs: "#f59e0b", acc: "#fde68a", star: "#6ee7b7" },
-            { bgTop: "#2b121d", bgBottom: "#0f060c", ball: "#fb923c", glow: "rgba(251,146,60,0.6)", obs: "#c084fc", acc: "#f3e8ff", star: "#fdba74" },
-            { bgTop: "#1e1035", bgBottom: "#090414", ball: "#e879f9", glow: "rgba(232,121,249,0.6)", obs: "#22d3ee", acc: "#cffafe", star: "#f5d0fe" },
-            { bgTop: "#291d06", bgBottom: "#0d0902", ball: "#fde047", glow: "rgba(253,224,71,0.65)", obs: "#fb7185", acc: "#ffe4e6", star: "#fef08a" },
-            { bgTop: "#0c2738", bgBottom: "#05111a", ball: "#e0f2fe", glow: "rgba(224,242,254,0.65)", obs: "#0284c7", acc: "#bae6fd", star: "#7dd3fc" },
-            { bgTop: "#330e0c", bgBottom: "#120404", ball: "#ff5722", glow: "rgba(255,87,34,0.65)", obs: "#7f1d1d", acc: "#fca5a5", star: "#fdba74" },
-            { bgTop: "#0b2912", bgBottom: "#041107", ball: "#a3e635", glow: "rgba(163,230,53,0.6)", obs: "#0d9488", acc: "#99f6e4", star: "#bef264" },
-            { bgTop: "#2e1229", bgBottom: "#120610", ball: "#f472b6", glow: "rgba(244,114,182,0.65)", obs: "#818cf8", acc: "#e0e7ff", star: "#fbcfe8" },
-            { bgTop: "#1a1038", bgBottom: "#070412", ball: "#ffffff", glow: "rgba(255,255,255,0.75)", obs: "#eab308", acc: "#fef08a", star: "#f0abfc" }
-          ];
-          const p = presets[i];
-          name = NAMED_WORLDS[i];
-          bgTop = p.bgTop;
-          bgBottom = p.bgBottom;
-          ballColor = p.ball;
-          ballGlow = p.glow;
-          obsColor = p.obs;
-          obsAccent = p.acc;
-          starColor = p.star;
-        } else {
-          const hueBall = (i * 37) % 360;
-          const hueObs = (hueBall + 145 + ((i * 19) % 70)) % 360;
-          const hueBg = (hueBall + 215) % 360;
-          const prefix = WORLD_PREFIXES[i % WORLD_PREFIXES.length];
-          name = `${prefix} Zone ${num}`;
-          bgTop = `hsl(${hueBg}, 45%, 12%)`;
-          bgBottom = `hsl(${hueBg}, 50%, 5%)`;
-          ballColor = `hsl(${hueBall}, 92%, 65%)`;
-          ballGlow = `hsla(${hueBall}, 95%, 65%, 0.65)`;
-          obsColor = `hsl(${hueObs}, 78%, 52%)`;
-          obsAccent = `hsl(${hueObs}, 95%, 84%)`;
-          starColor = `hsl(${hueBall}, 85%, 78%)`;
-        }
+        const p = presets[i];
 
         const ballStyle = num === 10
           ? "rainbow"
           : BALL_STYLES[(i * 3 + Math.floor(i / 10)) % BALL_STYLES.length];
 
-        // Κάθε νέα πίστα αυξάνει σταδιακά την ταχύτητα, στενεύει το πέρασμα και ενισχύει την κίνηση των μπαρών.
-        const speed = 145 + i * 11;
-        const gapRatio = Math.max(0.39, 0.56 - i * 0.016);
+        // Αυξημένη δυσκολία:
+        // - Γρηγορότερη κύλιση σε κάθε πίστα
+        // - Στενότερα ανοίγματα όσο προχωράς (από 0.43 στην 1η έως 0.22 στην 10η)
+        // - Ταχύτερο και πιο απαιτητικό ανεβοκατέβασμα μπάρων
+        const speed = 205 + i * 24;
+        const gapRatio = Math.max(0.22, 0.43 - i * 0.023);
         const quote = num === 10
           ? "Η κορυφή των 10 πιστών σου ανήκει!"
           : POSITIVE_QUOTES[i % POSITIVE_QUOTES.length];
 
         list.push({
           num,
-          name,
+          name: NAMED_WORLDS[i],
           targetScore: cumulativeTarget,
-          bgTop,
-          bgBottom,
-          ballColor,
-          ballGlow,
+          bgTop: p.bgTop,
+          bgBottom: p.bgBottom,
+          ballColor: p.ball,
+          ballGlow: p.glow,
           ballStyle,
-          obsColor,
-          obsAccent,
-          starColor,
+          obsColor: p.obs,
+          obsAccent: p.acc,
+          starColor: p.star,
           speed,
           gapRatio,
           award: getLevelAward(num),
@@ -1326,28 +1322,22 @@
     const crownProgressHud = document.getElementById("crownProgressHud");
     const finaleGathering = document.getElementById("finale-gathering");
     let rewardToastTimer = 0;
+
     function updateCrownProgress() {
       if (crownProgressHud) crownProgressHud.textContent = `👑 ${Math.min(TOTAL_LEVELS, collectedAwards.length)}/${TOTAL_LEVELS}`;
     }
+
     function playAwardSignature(lvlNum) {
-      // Κάθε βραβείο έχει μικρή διαφορετική μουσική υπογραφή.
       const base = 440 + (lvlNum % 12) * 24;
       const pattern = lvlNum % 5;
-      const notes = pattern === 0 ? [base, base*1.25, base*1.5, base*2] :
-                    pattern === 1 ? [base*1.5, base, base*1.8] :
-                    pattern === 2 ? [base, base*1.33, base*1.78] :
-                    pattern === 3 ? [base*2, base*1.5, base*1.25] : [base, base*1.5, base*2.25];
+      const notes = pattern === 0 ? [base, base * 1.25, base * 1.5, base * 2] :
+                    pattern === 1 ? [base * 1.5, base, base * 1.8] :
+                    pattern === 2 ? [base, base * 1.33, base * 1.78] :
+                    pattern === 3 ? [base * 2, base * 1.5, base * 1.25] : [base, base * 1.5, base * 2.25];
       notes.forEach((f, i) => playTone(f, 0.16, pattern === 4 ? "sine" : "triangle", 0.13, i * 0.085));
       vibrateDevice(22 + (lvlNum % 4) * 8);
     }
 
-    const MASCOT_PALETTES = [
-      ["#42d9f5","#1479bd","#baf7ff"], ["#70e6a5","#16845c","#d2ffe3"],
-      ["#ffad68","#e65d70","#fff0a8"], ["#e9a2ff","#8054d6","#fce7ff"],
-      ["#ffe36e","#e99a35","#fff8c9"], ["#c5f1ff","#5b9bd5","#ffffff"],
-      ["#ff8b63","#c83f50","#ffe0a8"], ["#b7f36d","#3b985b","#e8ffc5"],
-      ["#ff9fd2","#bd65ce","#ffe5f3"], ["#b8a7ff","#6552cf","#fff1a8"]
-    ];
     function awardMascotMarkup(levelNum, locked = false) {
       const n = Math.max(1, Math.min(10, Number(levelNum) || 1));
       const palettes = [
@@ -1359,43 +1349,21 @@
       ];
       const [main, dark, light] = palettes[n - 1];
       const shapes = [
-        // 1: Aqua kitty
         '<path d="M18 43 L22 13 Q24 7 31 14 L43 27 Q50 24 57 27 L69 14 Q76 7 78 14 L82 44 Q88 69 69 82 Q50 94 31 82 Q12 69 18 43Z"/>',
-        // 2: Emerald star
         '<path d="M50 7 L62 34 L91 38 L70 59 L76 89 L50 74 L24 89 L30 59 L9 38 L38 34Z"/>',
-        // 3: Sunny fox
         '<path d="M17 32 L15 8 L39 23 Q50 19 61 23 L85 8 L83 32 Q91 57 75 76 Q63 90 50 90 Q37 90 25 76 Q9 57 17 32Z"/>',
-        // 4: Violet crystal
         '<path d="M50 5 L83 34 L70 78 L50 94 L30 78 L17 34Z"/>',
-        // 5: Golden flower
         '<path d="M50 7 Q64 7 65 25 Q83 15 88 31 Q94 46 76 53 Q91 67 78 80 Q65 92 52 76 Q40 94 25 81 Q11 68 25 53 Q7 45 13 30 Q20 14 37 25 Q37 7 50 7Z"/>',
-        // 6: Frost cloud
         '<path d="M23 76 Q8 72 12 55 Q14 42 29 40 Q29 17 50 17 Q69 17 72 39 Q91 40 89 60 Q88 78 70 80Z"/>',
-        // 7: Lava dragon
         '<path d="M17 37 L9 17 L35 27 Q50 18 65 27 L91 17 L83 42 Q91 68 68 82 L58 91 L50 80 L42 91 L32 82 Q9 68 17 37Z"/>',
-        // 8: Jungle butterfly
         '<path d="M49 47 Q20 4 10 30 Q2 57 43 61 Q7 77 28 91 Q46 96 50 67 Q54 96 72 91 Q93 77 57 61 Q98 57 90 30 Q80 4 51 47Z"/>',
-        // 9: Candy heart
         '<path d="M50 88 Q40 78 19 57 Q-1 35 17 17 Q34 1 50 23 Q66 1 83 17 Q101 35 81 57 Q60 78 50 88Z"/>',
-        // 10: Crowned cosmic orb
         '<circle cx="50" cy="56" r="36"/><path d="M22 25 L16 5 L38 18 L50 2 L62 18 L84 5 L78 25Z"/>'
       ][n - 1];
-      const isShape = [2,4,5,8,9].includes(n);
+      const isShape = [2, 4, 5, 8, 9].includes(n);
       const eyes = isShape
         ? '<ellipse cx="39" cy="54" rx="6" ry="8" fill="#fff"/><ellipse cx="61" cy="54" rx="6" ry="8" fill="#fff"/><ellipse cx="40" cy="56" rx="3.5" ry="5" fill="#26345c"/><ellipse cx="62" cy="56" rx="3.5" ry="5" fill="#26345c"/>'
         : '<ellipse cx="38" cy="53" rx="8" ry="11" fill="#fff"/><ellipse cx="62" cy="53" rx="8" ry="11" fill="#fff"/><ellipse cx="40" cy="55" rx="4.5" ry="7" fill="#26345c"/><ellipse cx="64" cy="55" rx="4.5" ry="7" fill="#26345c"/><circle cx="41" cy="51" r="2.3" fill="#fff"/><circle cx="65" cy="51" r="2.3" fill="#fff"/>';
-      const extra = [
-        '<path d="M28 25 Q50 2 72 25" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>',
-        '<path d="M50 12 L55 24 L68 25 L58 34 L61 47 L50 40 L39 47 L42 34 L32 25 L45 24Z" fill="#eaffb8" stroke="#fff" stroke-width="2"/>',
-        '<path d="M30 26 L20 8 L43 20 M70 26 L80 8 L57 20" fill="#ffe0a8" stroke="#fff" stroke-width="2"/>',
-        '<path d="M50 9 L57 23 L73 25 L61 37 L64 53 L50 45 L36 53 L39 37 L27 25 L43 23Z" fill="#fff" opacity=".8"/>',
-        '<circle cx="50" cy="13" r="8" fill="#fff" stroke="#ffe36e" stroke-width="3"/>',
-        '<path d="M29 25 L23 10 L42 20 M71 25 L77 10 L58 20" fill="#fff" stroke="#9bdcff" stroke-width="2"/>',
-        '<path d="M29 27 L18 9 L43 21 M71 27 L82 9 L57 21" fill="#ffcf75" stroke="#fff" stroke-width="2"/>',
-        '<path d="M50 7 Q58 18 50 29 Q42 18 50 7Z" fill="#fff"/>',
-        '<path d="M50 8 C42 0 35 13 50 23 C65 13 58 0 50 8Z" fill="#fff"/>',
-        '<path d="M20 25 L16 5 L38 18 L50 2 L62 18 L84 5 L80 25Z" fill="#ffe36e" stroke="#fff4ba" stroke-width="2"/>'
-      ][n - 1];
       const mouth = n % 3 === 0
         ? '<path d="M44 69 Q50 62 56 69 Q50 79 44 69Z" fill="#71334f"/>'
         : '<path d="M44 68 Q50 75 56 68" fill="none" stroke="#71334f" stroke-width="2.8" stroke-linecap="round"/>';
@@ -1405,28 +1373,26 @@
         <defs><linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${light}"/><stop offset=".55" stop-color="${main}"/><stop offset="1" stop-color="${dark}"/></linearGradient></defs>
         <ellipse cx="50" cy="91" rx="25" ry="5" fill="#020617" opacity=".25"/>
         <g fill="url(#${uid})" stroke="${light}" stroke-width="2.8" stroke-linejoin="round">${shapes}</g>
-        <g>${extra}</g>
         ${eyes}
         ${mouth}
         <ellipse cx="25" cy="67" rx="5" ry="3" fill="#ff8ba7" opacity=".85"/><ellipse cx="75" cy="67" rx="5" ry="3" fill="#ff8ba7" opacity=".85"/>
-        <path d="M10 37 L13 29 L16 37 L24 40 L16 43 L13 51 L10 43 L3 40Z" fill="#fff5a8"/>
-        <path d="M82 30 L85 23 L88 30 L95 33 L88 36 L85 43 L82 36 L75 33Z" fill="#fff"/>
       </svg>`;
     }
+
     function showLevelReward(lvlNum, awardText) {
       if (!rewardToast) return;
-      const icon = (awardText.match(/^\S+/) || ["🏆"])[0];
       rewardArt.innerHTML = awardMascotMarkup(lvlNum);
       rewardName.textContent = awardText.replace(/^\S+\s*/, "");
-      crownPieceNote.textContent = `👑 Κομμάτι στέμματος ${Math.min(TOTAL_LEVELS,lvlNum)}/${TOTAL_LEVELS}`;
+      crownPieceNote.textContent = `👑 Κομμάτι στέμματος ${Math.min(TOTAL_LEVELS, lvlNum)}/${TOTAL_LEVELS}`;
       rewardToast.classList.remove("show");
       void rewardToast.offsetWidth;
       rewardToast.classList.add("show");
       clearTimeout(rewardToastTimer);
       rewardToastTimer = setTimeout(() => rewardToast.classList.remove("show"), 2300);
-      try { playAwardSignature(lvlNum); } catch(e) {}
-      try { spawnExplosion(player.x, player.y, "#fde047", 16); } catch(e) {}
+      try { playAwardSignature(lvlNum); } catch (e) {}
+      try { spawnExplosion(player.x, player.y, "#fde047", 16); } catch (e) {}
     }
+
     function showFinaleCollection() {
       if (!finaleGathering) return;
       const party = LEVELS.map((lvl, i) => {
@@ -1435,7 +1401,7 @@
         return `<span style="--a:${angle}deg;--d:${delay}s">${awardMascotMarkup(lvl.num)}</span>`;
       }).join("");
       finaleGathering.innerHTML = `
-        <div class="finale-orbit finale-full">${party}</div>
+        <div class="finale-orbit">${party}</div>
         <div class="finale-center">
           <div class="victory-ball" aria-label="Η μπάλα με το στέμμα">
             <span class="victory-crown">👑</span>
@@ -1445,7 +1411,7 @@
           <div class="victory-subtitle">🎉 ΤΑ ΚΑΤΑΦΕΡΑΜΕ! 🎉</div>
         </div>`;
       finaleGathering.classList.add("show");
-      setTimeout(()=>finaleGathering.classList.remove("show"),12000);
+      setTimeout(() => finaleGathering.classList.remove("show"), 12000);
     }
 
     function getNextMilestoneGiftText(fromLvlNum) {
@@ -1457,8 +1423,7 @@
 
     function updateGiftHints() {
       const currentLvl = LEVELS[currentLevelIndex];
-      const teaserText = getNextMilestoneGiftText(currentLvl.num);
-      giftTeaser.textContent = teaserText;
+      giftTeaser.textContent = getNextMilestoneGiftText(currentLvl.num);
     }
 
     function updateComboBadge() {
@@ -1519,25 +1484,22 @@
         const isMilestone = lvl.num === 10 || lvl.num === 5;
         const card = document.createElement("div");
         card.className = `showcase-item ${isUnlocked ? "unlocked" : ""} ${isMilestone ? "milestone" : ""}`;
-        const awardIcon = (lvl.award.match(/^\S+/) || ["🎁"])[0];
         const awardLabel = lvl.award.replace(/^\S+\s*/, "");
         card.innerHTML = `
-          <div class="showcase-art" aria-hidden="true">${awardMascotMarkup(lvl.num, !isUnlocked)}${!isUnlocked ? '<span class="s-icon" style="position:absolute;font-size:18px;right:7px;bottom:5px">🔒</span>' : ""}</div>
+          <div class="showcase-art" aria-hidden="true">${awardMascotMarkup(lvl.num, !isUnlocked)}</div>
           <div class="s-lvl">Πίστα ${lvl.num} • ${lvl.name}</div>
-          <div class="s-award">${isUnlocked ? awardLabel : `🎁 Κλειδωμένο δώρο`}</div>
-          ${isUnlocked ? `<div class="s-play-hint" style="color:#67e8f9;font-size:9px;margin-top:4px;font-weight:800">▶ Πάτησέ με για ήχο!</div>` : ""}
+          <div class="s-award">${awardLabel}</div>
+          <div class="s-play-hint" style="color:#67e8f9;font-size:9px;margin-top:4px;font-weight:800">▶ Πάτησέ με για ήχο!</div>
         `;
         card.addEventListener("click", () => {
           card.classList.remove("reward-card-pop");
           void card.offsetWidth;
           card.classList.add("reward-card-pop");
-          if (isUnlocked) {
-            const mascotNode = card.querySelector(".award-mascot");
-            if (mascotNode) { mascotNode.animate([{transform:"scale(1) rotate(0deg)"},{transform:"scale(1.28) rotate(12deg)"},{transform:"scale(1) rotate(0deg)"}],{duration:650,easing:"ease-out"}); }
-            const hint = card.querySelector(".s-play-hint");
-            if (hint) { hint.textContent = "✨ Το δώρο σου!"; setTimeout(()=>{ if(hint.isConnected) hint.textContent="▶ Πάτησέ με για ήχο!"; },1100); }
-            try { playAwardSignature(lvl.num); } catch(e) {}
+          const mascotNode = card.querySelector(".award-mascot");
+          if (mascotNode) {
+            mascotNode.animate([{ transform: "scale(1) rotate(0deg)" }, { transform: "scale(1.28) rotate(12deg)" }, { transform: "scale(1) rotate(0deg)" }], { duration: 650, easing: "ease-out" });
           }
+          try { playAwardSignature(lvl.num); } catch (e) {}
         });
         showcaseGrid.appendChild(card);
       }
@@ -1554,9 +1516,7 @@
 
     showcaseBtn.addEventListener("click", openShowcase);
     document.getElementById("miniCollectionBtn").addEventListener("click", openShowcase);
-    closeShowcaseBtn.addEventListener("click", () => {
-      showcaseModal.classList.remove("open");
-    });
+    closeShowcaseBtn.addEventListener("click", () => showcaseModal.classList.remove("open"));
 
     filterAllBtn.addEventListener("click", () => {
       showcaseFilter = "all";
@@ -1573,8 +1533,6 @@
     });
 
     resetProgressBtn.addEventListener("click", () => {
-      const ok = window.confirm("Θέλεις σίγουρα να μηδενίσεις την πρόοδο και τα βραβεία για νέα αρχή;");
-      if (!ok) return;
       collectedAwards = [];
       sessionAwards = [];
       unlockedLevel = 1;
@@ -1596,9 +1554,10 @@
         opt.value = String(i);
         const isUnlocked = lvl.num <= unlockedLevel;
         opt.disabled = !isUnlocked;
+        const diffMeta = getDifficultyMeta(lvl.num);
         opt.textContent = isUnlocked
-          ? `Πίστα ${lvl.num}: ${lvl.name}`
-          : `🔒 Πίστα ${lvl.num}`;
+          ? `Πίστα ${lvl.num}: ${lvl.name} (${diffMeta.label})`
+          : `🔒 Πίστα ${lvl.num} (${diffMeta.label})`;
         startLevelSelect.appendChild(opt);
       }
       startLevelSelect.value = String(Math.min(unlockedLevel - 1, LEVELS.length - 1));
@@ -1613,30 +1572,73 @@
     }
     populateLevelSelect();
     startBtn.textContent = "Παίξε";
+
     const settingMusic = document.getElementById("settingMusic");
     const settingSound = document.getElementById("settingSound");
     const settingVibe = document.getElementById("settingVibe");
     const settingKids = document.getElementById("settingKids");
+
     document.getElementById("tutorialBtn").addEventListener("click", () => tutorialModal.classList.add("open"));
     document.getElementById("closeTutorialBtn").addEventListener("click", () => tutorialModal.classList.remove("open"));
+
     function openSettings() {
-      settingMusic.checked = musicEnabled; settingSound.checked = soundEnabled; settingVibe.checked = vibeEnabled; settingKids.checked = kidsMode || kidsModeToggle.checked;
+      settingMusic.checked = musicEnabled;
+      settingSound.checked = soundEnabled;
+      settingVibe.checked = vibeEnabled;
+      settingKids.checked = kidsMode || kidsModeToggle.checked;
       settingsModal.classList.add("open");
     }
+
     document.getElementById("settingsBtn").addEventListener("click", openSettings);
     document.getElementById("gameSettingsBtn").addEventListener("click", (e) => { e.stopPropagation(); openSettings(); });
     document.getElementById("closeSettingsBtn").addEventListener("click", () => settingsModal.classList.remove("open"));
-    settingMusic.addEventListener("change", () => { musicEnabled=settingMusic.checked; safeStorage.setItem("orbit100_music",String(musicEnabled)); musicBtn.textContent=musicEnabled?"🎵":"🔇"; musicBtn.classList.toggle("muted",!musicEnabled); if(musicEnabled&&gameRunning&&!paused)startHappyMusic();else stopHappyMusic(); });
-    settingSound.addEventListener("change", () => { soundEnabled=settingSound.checked; safeStorage.setItem("orbit100_sound",String(soundEnabled)); soundBtn.textContent=soundEnabled?"🔊":"🔇"; soundBtn.classList.toggle("muted",!soundEnabled); });
-    settingVibe.addEventListener("change", () => { vibeEnabled=settingVibe.checked; safeStorage.setItem("orbit100_vibe",String(vibeEnabled)); vibeBtn.classList.toggle("muted",!vibeEnabled); });
-    settingKids.addEventListener("change", () => { kidsMode=settingKids.checked; kidsModeToggle.checked=kidsMode; });
-    continueBtn.addEventListener("click", () => { const saved=Math.max(0,Math.min(unlockedLevel-1,Number(safeStorage.getItem("orbit100_checkpoint")||0))); startLevelSelect.value=String(saved); startGame(); });
-    restartBtn.addEventListener("click", () => { startLevelSelect.value="0"; startGame(); });
-    function showGameMessage(message, duration=2600) { if(!gameMessage)return; gameMessage.textContent=message; gameMessage.classList.add("show"); clearTimeout(showGameMessage.timer); showGameMessage.timer=setTimeout(()=>gameMessage.classList.remove("show"),duration); }
+
+    settingMusic.addEventListener("change", () => {
+      musicEnabled = settingMusic.checked;
+      safeStorage.setItem("orbit100_music", String(musicEnabled));
+      if (musicEnabled && gameRunning && !paused) startHappyMusic();
+      else stopHappyMusic();
+    });
+
+    settingSound.addEventListener("change", () => {
+      soundEnabled = settingSound.checked;
+      safeStorage.setItem("orbit100_sound", String(soundEnabled));
+    });
+
+    settingVibe.addEventListener("change", () => {
+      vibeEnabled = settingVibe.checked;
+      safeStorage.setItem("orbit100_vibe", String(vibeEnabled));
+    });
+
+    settingKids.addEventListener("change", () => {
+      kidsMode = settingKids.checked;
+      kidsModeToggle.checked = kidsMode;
+      updateHud();
+    });
 
     kidsModeToggle.addEventListener("change", () => {
       kidsMode = kidsModeToggle.checked;
+      updateHud();
     });
+
+    continueBtn.addEventListener("click", () => {
+      const saved = Math.max(0, Math.min(unlockedLevel - 1, Number(safeStorage.getItem("orbit100_checkpoint") || 0)));
+      startLevelSelect.value = String(saved);
+      startGame();
+    });
+
+    restartBtn.addEventListener("click", () => {
+      startLevelSelect.value = "0";
+      startGame();
+    });
+
+    function showGameMessage(message, duration = 2600) {
+      if (!gameMessage) return;
+      gameMessage.textContent = message;
+      gameMessage.classList.add("show");
+      clearTimeout(showGameMessage.timer);
+      showGameMessage.timer = setTimeout(() => gameMessage.classList.remove("show"), duration);
+    }
 
     function setPausedState(nextPaused) {
       if (!gameRunning) return;
@@ -1655,14 +1657,10 @@
 
     pauseBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (gameRunning) {
-        setPausedState(!paused);
-      }
+      if (gameRunning) setPausedState(!paused);
     });
 
-    resumeBtn.addEventListener("click", () => {
-      setPausedState(false);
-    });
+    resumeBtn.addEventListener("click", () => setPausedState(false));
 
     quitToMenuBtn.addEventListener("click", () => {
       paused = false;
@@ -1729,18 +1727,13 @@
       }, 2800);
     }
 
-    function getDifficultyLabel(levelNum) {
-      if (levelNum <= 2) return "Εύκολη";
-      if (levelNum <= 4) return "Κανονική";
-      if (levelNum <= 6) return "Μέτρια+";
-      if (levelNum <= 8) return "Δύσκολη";
-      return "Πολύ δύσκολη";
-    }
-
     function updateHud() {
       const lvl = LEVELS[currentLevelIndex];
+      const diffMeta = getDifficultyMeta(lvl.num);
       levelHud.textContent = `Πίστα ${lvl.num}/${TOTAL_LEVELS}`;
-      difficultyHud.textContent = `Δυσκολία: ${getDifficultyLabel(lvl.num)}`;
+      difficultyHud.textContent = kidsMode ? "🧸 Παιδική" : diffMeta.label;
+      difficultyHud.style.color = kidsMode ? "#6ee7b7" : diffMeta.color;
+      difficultyHud.style.borderColor = kidsMode ? "rgba(110, 231, 183, 0.5)" : diffMeta.border;
       scoreHud.textContent = `Σκορ: ${score} / ${lvl.targetScore}`;
       bestHud.textContent = `Ρεκόρ: ${bestScore}`;
       updateCrownProgress();
@@ -1763,7 +1756,7 @@
       pauseOverlay.classList.remove("open");
       updatePowerBadges();
       updateGiftHints();
-      spawnTimer = 0.65;
+      spawnTimer = 0.55;
       player.y = height * 0.5;
       player.vy = 0;
       player.trail = [];
@@ -1782,12 +1775,13 @@
       overlay.classList.add("hidden");
       startHappyMusic();
       const lvl = LEVELS[currentLevelIndex];
+      const diffMeta = getDifficultyMeta(lvl.num);
       showBanner(
-        `Πίστα ${lvl.num}: ${lvl.name}${kidsMode ? " (Παιδική)" : ""}`,
+        `Πίστα ${lvl.num}: ${lvl.name} (${kidsMode ? "🧸 Παιδική" : diffMeta.label})`,
         `Δώρο πίστας: ${lvl.award}`,
         lvl.quote
       );
-      showGameMessage("Άγγιξε και κράτησε για να ανέβεις • Άφησε για να κατέβεις", 3600);
+      showGameMessage("Άγγιξε και κράτησε για να ανέβεις • Οι μπάρες ανεβοκατεβαίνουν συνεχώς!", 3600);
       lastTime = performance.now();
       cancelAnimationFrame(animationId);
       animationId = requestAnimationFrame(loop);
@@ -1876,7 +1870,6 @@
       playGameOverSound();
 
       const lvl = LEVELS[currentLevelIndex];
-      const missingPoints = Math.max(0, lvl.targetScore - score);
       spawnExplosion(player.x, player.y, getBallColor(lvl, performance.now() / 1000), 26);
       draw(performance.now() / 1000);
 
@@ -1919,12 +1912,13 @@
             safeStorage.setItem("orbit100_unlocked", String(unlockedLevel));
           }
           const nextLvl = LEVELS[currentLevelIndex];
+          const nextDiff = getDifficultyMeta(nextLvl.num);
           happyFaceTimer = 1.4;
           updateGiftHints();
           playLevelUpSound();
           spawnExplosion(player.x, player.y, getBallColor(nextLvl, performance.now() / 1000), 24);
           showBanner(
-            `Πίστα ${nextLvl.num}: ${nextLvl.name}!`,
+            `Πίστα ${nextLvl.num}: ${nextLvl.name} (${kidsMode ? "🧸 Παιδική" : nextDiff.label})`,
             `Κέρδισες: ${currentLvl.award}`,
             nextLvl.quote
           );
@@ -1939,22 +1933,20 @@
 
     function spawnObstacle() {
       const lvl = LEVELS[currentLevelIndex];
-      const gapMult = kidsMode ? 1.22 : 1;
-      const gapHeight = Math.min(height * 0.72, Math.max(245, height * lvl.gapRatio * gapMult));
-      const minBar = kidsMode ? 28 : 36;
+      const gapMult = kidsMode ? 1.32 : 1;
+      // Τα ανοίγματα στενεύουν σταδιακά από την 1η έως την 10η πίστα
+      const gapHeight = Math.min(height * 0.58, Math.max(108, height * lvl.gapRatio * gapMult));
+      const minBar = kidsMode ? 28 : 34;
       const maxTop = Math.max(minBar + 20, height - gapHeight - minBar);
       const topHeight = minBar + Math.random() * (maxTop - minBar);
-      const obsWidth = 36;
+      const obsWidth = 42 + currentLevelIndex * 2.1;
       const obsX = width + obsWidth;
       const difficulty = currentLevelIndex;
-      // Η κατακόρυφη κίνηση αυξάνεται ανά δύο πίστες, χωρίς να κλείνει το πέρασμα.
-      const motionAmplitude = [12, 20, 30, 40, 52, 62, 72, 82, 92, 100][difficulty] * (kidsMode ? 0.62 : 1);
-      const safeCenterMin = minBar + gapHeight * 0.5 + motionAmplitude;
-      const safeCenterMax = height - minBar - gapHeight * 0.5 - motionAmplitude;
-      const baseCenter = safeCenterMax > safeCenterMin
-        ? Math.max(safeCenterMin, Math.min(safeCenterMax, topHeight + gapHeight * 0.5))
-        : height * 0.5;
-      const motionSpeed = (0.85 + difficulty * 0.105) * (kidsMode ? 0.82 : 1);
+
+      // Οι μπάρες ανεβοκατεβαίνουν συνεχώς σε όλο το διαθέσιμο ύψος,
+      // με διαφορετικό εύρος και ταχύτητα κίνησης που αυξάνεται σε κάθε πίστα!
+      const motionStrength = (0.72 + Math.random() * 0.36) * (kidsMode ? 0.65 : 1);
+      const motionSpeed = (2.25 + difficulty * 0.36 + Math.random() * 0.55) * (kidsMode ? 0.72 : 1);
       const motionPhase = Math.random() * Math.PI * 2;
 
       obstacles.push({
@@ -1963,8 +1955,7 @@
         topHeight,
         bottomY: topHeight + gapHeight,
         gapHeight,
-        baseCenter,
-        motionAmplitude,
+        motionStrength,
         motionSpeed,
         motionPhase,
         motionTime: 0,
@@ -1984,7 +1975,7 @@
         }
 
         const baseY = topHeight + gapHeight * 0.5;
-        const movesGently = currentLevelIndex >= 5 && Math.random() < 0.5;
+        const movesGently = currentLevelIndex >= 4 && Math.random() < 0.55;
         bonuses.push({
           x: obsX + obsWidth * 0.5,
           y: baseY,
@@ -2069,7 +2060,7 @@
 
     function update(dt) {
       const lvl = LEVELS[currentLevelIndex];
-      const speed = lvl.speed * (kidsMode ? 0.68 : 1);
+      const speed = lvl.speed * (kidsMode ? 0.65 : 1);
 
       if (invulnTimer > 0) invulnTimer = Math.max(0, invulnTimer - dt);
       if (happyFaceTimer > 0) happyFaceTimer = Math.max(0, happyFaceTimer - dt);
@@ -2086,8 +2077,8 @@
         }
       }
 
-      const targetVy = holding ? (kidsMode ? -165 : -195) : (kidsMode ? 130 : 155);
-      const smoothing = kidsMode ? 8 : 9.5;
+      const targetVy = holding ? (kidsMode ? -165 : -205) : (kidsMode ? 130 : 165);
+      const smoothing = kidsMode ? 8 : 10.2;
       player.vy += (targetVy - player.vy) * Math.min(1, smoothing * dt);
       player.y += player.vy * dt;
 
@@ -2106,20 +2097,24 @@
       spawnTimer -= dt;
       if (spawnTimer <= 0) {
         spawnObstacle();
-        spawnTimer = (2.65 - currentLevelIndex * 0.085) * (kidsMode ? 1.2 : 1);
+        // Συχνότερη εμφάνιση νέων εμποδίων όσο προχωράς
+        spawnTimer = Math.max(1.08, 1.88 - currentLevelIndex * 0.088) * (kidsMode ? 1.28 : 1);
       }
 
-      const hitRadius = player.radius * (kidsMode ? 0.58 : 0.66);
+      const hitRadius = player.radius * (kidsMode ? 0.58 : 0.68);
 
       for (let i = obstacles.length - 1; i >= 0; i--) {
         const obs = obstacles[i];
         obs.x -= speed * dt;
         obs.motionTime += dt;
-        const minCenter = 36 + obs.gapHeight * 0.5;
-        const maxCenter = height - 36 - obs.gapHeight * 0.5;
-        const travel = Math.max(0, Math.min(obs.motionAmplitude, (maxCenter - minCenter) * 0.46));
-        const center = Math.max(minCenter, Math.min(maxCenter,
-          obs.baseCenter + Math.sin(obs.motionTime * obs.motionSpeed + obs.motionPhase) * travel));
+
+        // Καθαρή, συνεχής κατακόρυφη κίνηση: κάθε μπάρα ανεβαίνει και κατεβαίνει διαρκώς!
+        const minCenter = 32 + obs.gapHeight * 0.5;
+        const maxCenter = height - 32 - obs.gapHeight * 0.5;
+        const middleCenter = (minCenter + maxCenter) * 0.5;
+        const travel = Math.max(0, (maxCenter - minCenter) * 0.5 * Math.min(1, obs.motionStrength));
+        const wave = Math.sin(obs.motionTime * obs.motionSpeed + obs.motionPhase);
+        const center = middleCenter + wave * travel;
         obs.topHeight = center - obs.gapHeight * 0.5;
         obs.bottomY = center + obs.gapHeight * 0.5;
 
@@ -2162,7 +2157,7 @@
         b.x -= speed * dt;
         b.pulse += dt * 5;
         if (b.movesGently) {
-          b.baseY += Math.sin(b.pulse * 0.7) * 22 * dt;
+          b.baseY += Math.sin(b.pulse * 0.7) * 24 * dt;
           b.y = b.baseY;
         }
 
@@ -2298,62 +2293,58 @@
 
     function drawWorldScenery(world, timeSec) {
       const w = width, h = height;
-      const drift = (timeSec * 13) % (w + 120);
+      const palettes = [
+        ["#38bdf8", "#a78bfa", "#f0abfc"], ["#34d399", "#22d3ee", "#c4b5fd"],
+        ["#fb7185", "#f9a8d4", "#fbbf24"], ["#c084fc", "#818cf8", "#67e8f9"],
+        ["#fbbf24", "#f0abfc", "#93c5fd"], ["#7dd3fc", "#c4b5fd", "#e0f2fe"],
+        ["#fb7185", "#f97316", "#c084fc"], ["#2dd4bf", "#a3e635", "#818cf8"],
+        ["#f9a8d4", "#c084fc", "#67e8f9"], ["#fde68a", "#c084fc", "#67e8f9"]
+      ];
+      const colors = palettes[Math.max(0, Math.min(9, world || 0))];
+      const drift = timeSec * (8 + world * 1.3);
       ctx.save();
-      ctx.globalAlpha = 0.5;
-      // Απαλές φωτεινές κουρτίνες και ατμοσφαιρικές λάμψεις σε κάθε κόσμο.
-      const glow = ctx.createRadialGradient(w*.5, h*.38, 8, w*.5, h*.38, w*.72);
-      glow.addColorStop(0, "rgba(255,255,255,.12)"); glow.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = glow; ctx.fillRect(0,0,w,h);
-      ctx.globalAlpha = 0.26;
-      for (let k=0;k<4;k++) {
-        const x = ((k*137 + drift*.32) % (w+100))-50;
-        const y = h*(.17 + (k%3)*.22) + Math.sin(timeSec*0.7+k)*13;
-        ctx.fillStyle = ["#a5f3fc","#fbcfe8","#fde68a","#c4b5fd"][k];
-        ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 22;
-        ctx.beginPath(); ctx.arc(x,y, 13+(k%2)*8, 0, Math.PI*2); ctx.fill();
+      for (let i = 0; i < 5; i++) {
+        const x = w * (0.12 + i * 0.2) + Math.sin(timeSec * 0.13 + i * 1.7) * w * 0.055;
+        const y = h * (0.18 + (i % 3) * 0.22) + Math.cos(timeSec * 0.16 + i) * 16;
+        const radius = Math.min(w, h) * (0.19 + (i % 2) * 0.07);
+        const nebula = ctx.createRadialGradient(x, y, 2, x, y, radius);
+        nebula.addColorStop(0, colors[i % 3] + "99");
+        nebula.addColorStop(0.48, colors[(i + 1) % 3] + "48");
+        nebula.addColorStop(1, "rgba(5,7,25,0)");
+        ctx.globalAlpha = 0.96;
+        ctx.fillStyle = nebula;
+        ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
       }
-      ctx.shadowBlur = 0; ctx.globalAlpha = 0.72;
-      const drawCrystal = (x,y,scale,color) => { ctx.fillStyle=color; ctx.shadowColor=color; ctx.shadowBlur=16; ctx.beginPath(); ctx.moveTo(x,y);ctx.lineTo(x+10*scale,y-32*scale);ctx.lineTo(x+20*scale,y);ctx.lineTo(x+13*scale,y+27*scale);ctx.lineTo(x+5*scale,y+22*scale);ctx.closePath();ctx.fill(); };
-      const drawCloud = (x,y,scale,color) => { ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,15*scale,0,Math.PI*2);ctx.arc(x+17*scale,y-8*scale,19*scale,0,Math.PI*2);ctx.arc(x+37*scale,y,14*scale,0,Math.PI*2);ctx.fill(); };
-      if (world===0) { // Aqua Kitty Kingdom: κοχύλια και αστερίες, χωρίς γραμμές ή διαγώνια κυκλάκια
-        for(let i=0;i<6;i++){
-          const x=(i*91-drift*.14)%(w+60); const xx=x<0?x+w+60:x;
-          const y=h*(.76+(i%2)*.08);
-          ctx.save(); ctx.globalAlpha=.38; ctx.fillStyle=i%2?"#38bdf8":"#67e8f9";
-          ctx.translate(xx,y); ctx.rotate((i%2?-.18:.18));
-          ctx.beginPath();
-          for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5; const r=k%2?5:14; if(k===0)ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r);else ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}
-          ctx.closePath(); ctx.fill(); ctx.restore();
-        }
-        ctx.globalAlpha=.55;
-        for(let i=0;i<4;i++){const x=(i*127+drift*.12)%w; const y=h*(.18+i*.13); ctx.fillStyle=i%2?"#bae6fd":"#f0abfc"; ctx.font="24px sans-serif"; ctx.fillText("✦",x,y);}
-      } else if(world===1) { // Emerald Matrix: μαγικά κρυστάλλινα δέντρα
-        for(let i=0;i<7;i++){let x=(i*82-drift*.25)%(w+70);if(x<0)x+=w+70;drawCrystal(x,h-18,0.7+(i%3)*.25,i%2?"#34d399":"#6ee7b7");}
-        for(let i=0;i<5;i++){let x=(i*109+25)%w;ctx.strokeStyle="#86efac";ctx.globalAlpha=.25;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+Math.sin(timeSec+i)*25,h*.42);ctx.stroke();}
-      } else if(world===2) { // Solar Sunset: ήλιος, ακτίνες, σύννεφα
-        const sy=h*.22;ctx.fillStyle="#fb923c";ctx.shadowColor="#fdba74";ctx.shadowBlur=30;ctx.beginPath();ctx.arc(w*.76,sy,35,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
-        ctx.strokeStyle="#fdba74";ctx.lineWidth=3;for(let a=0;a<12;a++){let an=a*Math.PI/6+timeSec*.04;ctx.beginPath();ctx.moveTo(w*.76+Math.cos(an)*45,sy+Math.sin(an)*45);ctx.lineTo(w*.76+Math.cos(an)*62,sy+Math.sin(an)*62);ctx.stroke();}drawCloud((drift*.5)%w,h*.31,.65,"rgba(255,190,170,.5)");drawCloud((w-drift*.3+w)%w,h*.49,.45,"rgba(255,220,200,.38)");
-      } else if(world===3) { // Royal Nebula: αιωρούμενα δαχτυλίδια και αστρική σκόνη
-        for(let i=0;i<4;i++){let x=w*(.18+i*.22),y=h*(.2+(i%2)*.25)+Math.sin(timeSec+i)*9;ctx.strokeStyle=i%2?"#67e8f9":"#e9a8ff";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(x,y,28+i*4,9+i*2,timeSec*.12+i,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();}
-      } else if(world===4) { // Golden Nova: αιωρούμενα χρυσά νησιά και αστέρια
-        for(let i=0;i<5;i++){let x=(i*103-drift*.2)%(w+70);if(x<0)x+=w+70;let y=h*(.22+(i%3)*.16);ctx.fillStyle="rgba(245,158,11,.22)";ctx.beginPath();ctx.ellipse(x,y,35,8,0,0,Math.PI*2);ctx.fill();ctx.fillStyle="#fde68a";drawStar(x,y-9,5,7,3,timeSec+i);}
-      } else if(world===5) { // Arctic Frost: παγωμένοι κρύσταλλοι και χιονονιφάδες
-        for(let i=0;i<7;i++){let x=(i*89-drift*.18)%(w+70);if(x<0)x+=w+70;drawCrystal(x,h-14,.65+(i%2)*.35,"rgba(186,230,253,.7)");}
-        ctx.strokeStyle="rgba(224,242,254,.8)";ctx.lineWidth=1.5;for(let i=0;i<12;i++){let x=(i*59+Math.sin(timeSec+i)*12)%w,y=(i*71+timeSec*10)%h;ctx.beginPath();ctx.moveTo(x-5,y);ctx.lineTo(x+5,y);ctx.moveTo(x,y-5);ctx.lineTo(x,y+5);ctx.stroke();}
-      } else if(world===6) { // Volcano Lava: ηφαίστεια, λάβα, σπίθες
-        ctx.fillStyle="rgba(127,29,29,.45)";ctx.beginPath();ctx.moveTo(0,h);ctx.lineTo(w*.18,h*.62);ctx.lineTo(w*.35,h);ctx.lineTo(w*.58,h*.57);ctx.lineTo(w*.8,h);ctx.lineTo(w,h*.68);ctx.lineTo(w,h);ctx.fill();
-        for(let i=0;i<14;i++){let x=(i*43+Math.sin(timeSec*1.5+i)*15)%w,y=(h-(timeSec*24+i*61)%h);ctx.fillStyle=i%2?"#fb923c":"#fde047";ctx.globalAlpha=.45;ctx.beginPath();ctx.arc(x,y,1.5+(i%3),0,Math.PI*2);ctx.fill();}
-      } else if(world===7) { // Neon Jungle: κληματσίδες, φύλλα, πυγολαμπίδες
-        for(let i=0;i<6;i++){let x=i*w/5;ctx.strokeStyle=i%2?"#4ade80":"#2dd4bf";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,0);ctx.bezierCurveTo(x+25,h*.2,x-22,h*.35,x+12,h*.55);ctx.stroke();for(let j=0;j<3;j++){let yy=h*(.13+j*.14);ctx.fillStyle="#86efac";ctx.beginPath();ctx.ellipse(x+12+(j%2)*12,yy,5,12,Math.sin(timeSec+j+i),0,Math.PI*2);ctx.fill();}}
-      } else if(world===8) { // Candy Dream: γλειφιτζούρια και μαλλί της γριάς
-        for(let i=0;i<5;i++){let x=(i*97-drift*.22)%(w+70);if(x<0)x+=w+70;ctx.strokeStyle="#fbcfe8";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,h-12);ctx.lineTo(x,h*.48);ctx.stroke();ctx.fillStyle=i%2?"#f9a8d4":"#c4b5fd";ctx.beginPath();ctx.arc(x,h*.44,17,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,h*.44,10,0,Math.PI*1.6);ctx.stroke();}
-        drawCloud((drift*.35)%w,h*.25,.55,"rgba(255,255,255,.35)");
-      } else { // Cosmic Rainbow: πλανήτες και κομήτες
-        for(let i=0;i<4;i++){let x=(i*121+drift*.16)%w,y=h*(.18+(i%3)*.22);ctx.fillStyle=["#a78bfa","#f9a8d4","#67e8f9","#fde68a"][i];ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=15;ctx.beginPath();ctx.arc(x,y,10+i%3*5,0,Math.PI*2);ctx.fill();ctx.strokeStyle="rgba(255,255,255,.65)";ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,22+i%3*5,7, -.35,0,Math.PI*2);ctx.stroke();}
-        ctx.strokeStyle="rgba(255,255,255,.6)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo((drift*1.4)%w, h*.12);ctx.lineTo((drift*1.4)%w-24,h*.19);ctx.stroke();
+      ctx.globalAlpha = 0.92;
+      for (let i = 0; i < 46; i++) {
+        const x = ((i * 83.17 + (i % 4) * drift * 0.12) % (w + 20) + w + 20) % w;
+        const y = ((i * 137.31) % h);
+        const r = 0.9 + (i % 4) * 0.52;
+        const pulse = 0.45 + 0.45 * Math.sin(timeSec * (1.1 + (i % 3) * 0.3) + i);
+        ctx.globalAlpha = pulse;
+        ctx.fillStyle = i % 3 === 0 ? colors[2] : "#ffffff";
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowBlur = 8 + (i % 3) * 4;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
       }
-      ctx.restore(); ctx.globalAlpha=1;
+      ctx.shadowBlur = 0;
+      const cometPhase = (timeSec * (0.16 + world * 0.008)) % 1;
+      const cometX = cometPhase * (w + 90) - 45;
+      const cometY = h * (0.12 + (world % 4) * 0.075);
+      ctx.globalAlpha = Math.max(0, Math.sin(cometPhase * Math.PI)) * 0.75;
+      ctx.strokeStyle = colors[2];
+      ctx.lineWidth = 2;
+      ctx.shadowColor = colors[2];
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.moveTo(cometX, cometY);
+      ctx.lineTo(cometX - 24, cometY - 9);
+      ctx.stroke();
+      ctx.restore();
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
     }
 
     function draw(timeSec = 0) {
@@ -2366,15 +2357,6 @@
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, width, height);
       drawWorldScenery(lvl.num - 1, timeSec);
-
-      for (const s of bgStars) {
-        ctx.globalAlpha = s.alpha;
-        ctx.fillStyle = lvl.starColor;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
 
       for (const obs of obstacles) {
         ctx.fillStyle = lvl.obsColor;
@@ -2510,11 +2492,46 @@
       }
 
       drawBallFace(player.x, player.y, player.radius);
+
+      const wornAwards = [...new Set(collectedAwards)]
+        .filter(n => Number.isInteger(n) && n >= 1 && n <= TOTAL_LEVELS)
+        .sort((a, b) => a - b);
+      if (wornAwards.length) {
+        ctx.save();
+        const orbitRadius = player.radius + 9;
+        const tokenRadius = wornAwards.length > 7 ? 5.2 : 6.2;
+        wornAwards.forEach((levelNum, index) => {
+          const angle = -Math.PI / 2 + (Math.PI * 2 * index / wornAwards.length);
+          const ax = player.x + Math.cos(angle) * orbitRadius;
+          const ay = player.y + Math.sin(angle) * orbitRadius;
+          ctx.save();
+          ctx.shadowColor = "#fde68a";
+          ctx.shadowBlur = 7;
+          ctx.fillStyle = "#34224f";
+          ctx.strokeStyle = "#fde68a";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(ax, ay, tokenRadius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+          ctx.font = `${tokenRadius * 1.45}px "Apple Color Emoji","Segoe UI Emoji",sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(MEDAL_ICONS[levelNum - 1], ax, ay + .4);
+          ctx.restore();
+        });
+        ctx.restore();
+      }
+
       if (victoryMode) {
         ctx.save();
         ctx.translate(player.x, player.y - player.radius - 8);
-        ctx.shadowColor = "#fde047"; ctx.shadowBlur = 18;
-        ctx.fillStyle = "#facc15"; ctx.strokeStyle = "#fff2a8"; ctx.lineWidth = 2;
+        ctx.shadowColor = "#fde047";
+        ctx.shadowBlur = 18;
+        ctx.fillStyle = "#facc15";
+        ctx.strokeStyle = "#fff2a8";
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(-player.radius * 0.82, 2);
         ctx.lineTo(-player.radius * 0.68, -player.radius * 0.75);
@@ -2523,9 +2540,15 @@
         ctx.lineTo(player.radius * 0.2, -player.radius * 0.32);
         ctx.lineTo(player.radius * 0.68, -player.radius * 0.75);
         ctx.lineTo(player.radius * 0.82, 2);
-        ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
         ctx.fillStyle = "#fff7cc";
-        for (const x of [-player.radius*.68,0,player.radius*.68]) { ctx.beginPath(); ctx.arc(x,-player.radius*.76,2.3,0,Math.PI*2); ctx.fill(); }
+        for (const x of [-player.radius * .68, 0, player.radius * .68]) {
+          ctx.beginPath();
+          ctx.arc(x, -player.radius * .76, 2.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
         ctx.restore();
       }
       ctx.restore();
