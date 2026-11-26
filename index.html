@@ -1155,11 +1155,26 @@
     }
 
     function getDifficultyMeta(levelNum) {
-      if (levelNum <= 2) return { label: "🟢 Εύκολη", color: "#4ade80", border: "rgba(74, 222, 128, 0.45)" };
-      if (levelNum <= 4) return { label: "🟡 Κανονική", color: "#facc15", border: "rgba(250, 204, 21, 0.45)" };
-      if (levelNum <= 6) return { label: "🟠 Μέτρια+", color: "#fb923c", border: "rgba(251, 146, 60, 0.5)" };
-      if (levelNum <= 8) return { label: "🔴 Δύσκολη", color: "#f87171", border: "rgba(248, 113, 113, 0.55)" };
-      return { label: "🔥 Πολύ δύσκολη", color: "#fda4af", border: "rgba(244, 63, 94, 0.7)" };
+      const step = Math.max(1, Math.min(TOTAL_LEVELS, Number(levelNum) || 1));
+      if (step <= 2) return { label: `🟢 Εύκολη (${step}/10)`, color: "#4ade80", border: "rgba(74, 222, 128, 0.45)" };
+      if (step <= 4) return { label: `🟡 Κανονική (${step}/10)`, color: "#facc15", border: "rgba(250, 204, 21, 0.45)" };
+      if (step <= 6) return { label: `🟠 Μέτρια+ (${step}/10)`, color: "#fb923c", border: "rgba(251, 146, 60, 0.5)" };
+      if (step <= 8) return { label: `🔴 Δύσκολη (${step}/10)`, color: "#f87171", border: "rgba(248, 113, 113, 0.55)" };
+      return { label: `🔥 Πολύ δύσκολη (${step}/10)`, color: "#fda4af", border: "rgba(244, 63, 94, 0.7)" };
+    }
+
+    function getLevelDifficultyParams(levelIndex) {
+      // Ομοιόμορφη, γραμμική κλιμάκωση από την Πίστα 1 (t = 0) έως την Πίστα 10 (t = 1)
+      const t = Math.max(0, Math.min(1, levelIndex / (TOTAL_LEVELS - 1)));
+      return {
+        t,
+        speed: 150 + t * 185,                 // 150 px/s (Πίστα 1) -> 335 px/s (Πίστα 10)
+        gapRatio: 0.52 - t * 0.25,            // 52% ύψους (Πίστα 1) -> 27% ύψους (Πίστα 10)
+        minGapPx: 162 - t * 54,               // 162 px (Πίστα 1) -> 108 px (Πίστα 10)
+        spawnInterval: 2.35 - t * 1.15,       // 2.35s (Πίστα 1) -> 1.20s (Πίστα 10)
+        barSpeed: 1.15 + t * 2.55,            // 1.15 rad/s (Πίστα 1) -> 3.70 rad/s (Πίστα 10)
+        barRange: 0.40 + t * 0.58             // 40% διαδρομή (Πίστα 1) -> 98% διαδρομή (Πίστα 10)
+      };
     }
 
     function buildAllLevels() {
@@ -1181,7 +1196,7 @@
 
       for (let i = 0; i < TOTAL_LEVELS; i++) {
         const num = i + 1;
-        const pointsNeededForLevel = 16 + Math.min(12, Math.floor(i / 4));
+        const pointsNeededForLevel = 16 + i;
         cumulativeTarget += pointsNeededForLevel;
         const p = presets[i];
 
@@ -1189,12 +1204,9 @@
           ? "rainbow"
           : BALL_STYLES[(i * 3 + Math.floor(i / 10)) % BALL_STYLES.length];
 
-        // Αυξημένη δυσκολία:
-        // - Γρηγορότερη κύλιση σε κάθε πίστα
-        // - Στενότερα ανοίγματα όσο προχωράς (από 0.43 στην 1η έως 0.22 στην 10η)
-        // - Ταχύτερο και πιο απαιτητικό ανεβοκατέβασμα μπάρων
-        const speed = 205 + i * 24;
-        const gapRatio = Math.max(0.22, 0.43 - i * 0.023);
+        const diffParams = getLevelDifficultyParams(i);
+        const speed = diffParams.speed;
+        const gapRatio = diffParams.gapRatio;
         const quote = num === 10
           ? "Η κορυφή των 10 πιστών σου ανήκει!"
           : POSITIVE_QUOTES[i % POSITIVE_QUOTES.length];
@@ -1933,20 +1945,18 @@
 
     function spawnObstacle() {
       const lvl = LEVELS[currentLevelIndex];
+      const diffParams = getLevelDifficultyParams(currentLevelIndex);
       const gapMult = kidsMode ? 1.32 : 1;
-      // Τα ανοίγματα στενεύουν σταδιακά από την 1η έως την 10η πίστα
-      const gapHeight = Math.min(height * 0.58, Math.max(108, height * lvl.gapRatio * gapMult));
-      const minBar = kidsMode ? 28 : 34;
+      const gapHeight = Math.min(height * 0.64, Math.max(diffParams.minGapPx, height * lvl.gapRatio * gapMult));
+      const minBar = kidsMode ? 28 : 32;
       const maxTop = Math.max(minBar + 20, height - gapHeight - minBar);
       const topHeight = minBar + Math.random() * (maxTop - minBar);
-      const obsWidth = 42 + currentLevelIndex * 2.1;
+      const obsWidth = 40 + currentLevelIndex * 2;
       const obsX = width + obsWidth;
-      const difficulty = currentLevelIndex;
 
-      // Οι μπάρες ανεβοκατεβαίνουν συνεχώς σε όλο το διαθέσιμο ύψος,
-      // με διαφορετικό εύρος και ταχύτητα κίνησης που αυξάνεται σε κάθε πίστα!
-      const motionStrength = (0.72 + Math.random() * 0.36) * (kidsMode ? 0.65 : 1);
-      const motionSpeed = (2.25 + difficulty * 0.36 + Math.random() * 0.55) * (kidsMode ? 0.72 : 1);
+      // Ομοιόμορφη αύξηση εύρους & ταχύτητας των μπαρών σε κάθε επόμενη πίστα
+      const motionStrength = Math.min(1.0, diffParams.barRange + Math.random() * 0.08) * (kidsMode ? 0.6 : 1);
+      const motionSpeed = (diffParams.barSpeed + Math.random() * 0.25) * (kidsMode ? 0.65 : 1);
       const motionPhase = Math.random() * Math.PI * 2;
 
       obstacles.push({
@@ -2097,8 +2107,8 @@
       spawnTimer -= dt;
       if (spawnTimer <= 0) {
         spawnObstacle();
-        // Συχνότερη εμφάνιση νέων εμποδίων όσο προχωράς
-        spawnTimer = Math.max(1.08, 1.88 - currentLevelIndex * 0.088) * (kidsMode ? 1.28 : 1);
+        const diffParams = getLevelDifficultyParams(currentLevelIndex);
+        spawnTimer = diffParams.spawnInterval * (kidsMode ? 1.32 : 1);
       }
 
       const hitRadius = player.radius * (kidsMode ? 0.58 : 0.68);
