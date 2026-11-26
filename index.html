@@ -457,28 +457,6 @@
       margin-bottom: 10px;
     }
 
-    .filter-group {
-      display: flex;
-      gap: 6px;
-    }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #cbd5e1;
-      border-radius: 9px;
-      padding: 5px 10px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .filter-btn.active {
-      background: rgba(250, 204, 21, 0.2);
-      border-color: #fde047;
-      color: #fde047;
-    }
-
     .reset-btn {
       background: rgba(244, 63, 94, 0.16);
       border: 1px solid rgba(244, 63, 94, 0.4);
@@ -957,9 +935,9 @@
 
     // --- 2. ΗΧΟΙ, ΧΑΡΟΥΜΕΝΗ ΜΟΥΣΙΚΗ & ΔΟΝΗΣΗ ---
     let audioCtx = null;
-    let soundEnabled = safeStorage.getItem("orbit100_sound") !== "false";
-    let musicEnabled = safeStorage.getItem("orbit100_music") !== "false";
-    let vibeEnabled = safeStorage.getItem("orbit100_vibe") !== "false";
+    let soundEnabled = safeStorage.getItem("orbit10_v2_sound") !== "false";
+    let musicEnabled = safeStorage.getItem("orbit10_v2_music") !== "false";
+    let vibeEnabled = safeStorage.getItem("orbit10_v2_vibe") !== "false";
     let musicTimer = null;
     let musicStep = 0;
 
@@ -977,8 +955,12 @@
     function unlockAudio() {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) return;
-      if (!audioCtx) audioCtx = new AudioContextClass();
-      if (audioCtx.state === "suspended") audioCtx.resume();
+      if (!audioCtx) {
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
       try {
         const buffer = audioCtx.createBuffer(1, 1, 22050);
         const source = audioCtx.createBufferSource();
@@ -1114,7 +1096,7 @@
       vibrateDevice(120);
     }
 
-    // --- 3. 10 ΠΙΣΤΕΣ ΜΕ ΠΙΟ ΑΠΑΙΤΗΤΙΚΗ ΚΛΙΜΑΚΩΣΗ & ΚΙΝΟΥΜΕΝΕΣ ΜΠΑΡΕΣ ---
+    // --- 3. 10 ΠΙΣΤΕΣ & ΟΜΟΙΟΜΟΡΦΗ ΚΛΙΜΑΚΩΣΗ ΔΥΣΚΟΛΙΑΣ ---
     const TOTAL_LEVELS = 10;
 
     const NAMED_WORLDS = [
@@ -1131,47 +1113,58 @@
     ];
 
     const POSITIVE_QUOTES = [
-      "Πάμε όμορφα και δυναμικά!",
+      "Πάμε όμορφα και χαλαρά!",
       "Είσαι σε υπέροχη τροχιά!",
-      "Συγχρονίσου με τις μπάρες!",
+      "Κάθε πίστα σου ανήκει!",
       "Τι ωραία που προχωράς!",
       "Φωτεινή συνέχεια μπροστά σου!",
       "Μπράβο, έχεις απίθανο ρυθμό!",
-      "Πρόσεξε τα στενά περάσματα!",
+      "Λίγη χαρά και ένα βήμα πιο ψηλά!",
       "Πετάς με στυλ μέσα στο διάστημα!"
     ];
 
     const BALL_STYLES = ["classic", "ring", "halo", "spark", "rainbow"];
     const MEDAL_ICONS = ["🥉", "🥈", "🥇", "💎", "🌟", "❄️", "🔥", "🌿", "🍭", "👑"];
 
+    function getLevelDifficultyParams(levelIndex) {
+      // Ομοιόμορφη, γραμμική μετάβαση t από 0 (Πίστα 1: Εύκολη) έως 1 (Πίστα 10: Πολύ δύσκολη)
+      const t = Math.max(0, Math.min(1, levelIndex / (TOTAL_LEVELS - 1)));
+      const speed = 150 + t * 185;                  // 150 -> 335
+      const gapRatio = 0.52 - t * 0.25;             // 0.52 -> 0.27
+      const spawnInterval = 2.35 - t * 1.15;        // 2.35s -> 1.20s
+      const barOscSpeed = 1.55 + t * 2.15;          // 1.55 -> 3.70 rad/s (σαφές ανεβοκατέβασμα)
+      const barTravelRatio = 0.62 + t * 0.36;       // 0.62 -> 0.98 της διαδρομής πάνω-κάτω
+      const barWidth = 36 + t * 18;                 // 36px -> 54px
+
+      let label = "🟢 Εύκολη";
+      let color = "#4ade80";
+      let border = "rgba(74, 222, 128, 0.45)";
+      if (levelIndex >= 8) {
+        label = "🔥 Πολύ δύσκολη";
+        color = "#fb923c";
+        border = "rgba(251, 146, 60, 0.55)";
+      } else if (levelIndex >= 6) {
+        label = "🔴 Δύσκολη";
+        color = "#fb7185";
+        border = "rgba(251, 113, 133, 0.5)";
+      } else if (levelIndex >= 4) {
+        label = "🟠 Μέτρια+";
+        color = "#fdba74";
+        border = "rgba(253, 186, 116, 0.48)";
+      } else if (levelIndex >= 2) {
+        label = "🟡 Κανονική";
+        color = "#fde047";
+        border = "rgba(253, 224, 71, 0.45)";
+      }
+
+      return { speed, gapRatio, spawnInterval, barOscSpeed, barTravelRatio, barWidth, label, color, border };
+    }
+
     function getLevelAward(num) {
       if (num === 10) return "👑 ΜΕΓΑΛΟ ΣΤΕΜΜΑ ΤΩΝ 10 ΠΙΣΤΩΝ";
       if (num === 5) return `🌟 Αστέρι Δώρου Πίστας ${num}`;
       const icon = MEDAL_ICONS[(num - 1) % MEDAL_ICONS.length];
       return `${icon} Βραβείο Πίστας ${num}`;
-    }
-
-    function getDifficultyMeta(levelNum) {
-      const step = Math.max(1, Math.min(TOTAL_LEVELS, Number(levelNum) || 1));
-      if (step <= 2) return { label: `🟢 Εύκολη (${step}/10)`, color: "#4ade80", border: "rgba(74, 222, 128, 0.45)" };
-      if (step <= 4) return { label: `🟡 Κανονική (${step}/10)`, color: "#facc15", border: "rgba(250, 204, 21, 0.45)" };
-      if (step <= 6) return { label: `🟠 Μέτρια+ (${step}/10)`, color: "#fb923c", border: "rgba(251, 146, 60, 0.5)" };
-      if (step <= 8) return { label: `🔴 Δύσκολη (${step}/10)`, color: "#f87171", border: "rgba(248, 113, 113, 0.55)" };
-      return { label: `🔥 Πολύ δύσκολη (${step}/10)`, color: "#fda4af", border: "rgba(244, 63, 94, 0.7)" };
-    }
-
-    function getLevelDifficultyParams(levelIndex) {
-      // Ομοιόμορφη, γραμμική κλιμάκωση από την Πίστα 1 (t = 0) έως την Πίστα 10 (t = 1)
-      const t = Math.max(0, Math.min(1, levelIndex / (TOTAL_LEVELS - 1)));
-      return {
-        t,
-        speed: 150 + t * 185,                 // 150 px/s (Πίστα 1) -> 335 px/s (Πίστα 10)
-        gapRatio: 0.52 - t * 0.25,            // 52% ύψους (Πίστα 1) -> 27% ύψους (Πίστα 10)
-        minGapPx: 162 - t * 54,               // 162 px (Πίστα 1) -> 108 px (Πίστα 10)
-        spawnInterval: 2.35 - t * 1.15,       // 2.35s (Πίστα 1) -> 1.20s (Πίστα 10)
-        barSpeed: 1.15 + t * 2.55,            // 1.15 rad/s (Πίστα 1) -> 3.70 rad/s (Πίστα 10)
-        barRange: 0.40 + t * 0.58             // 40% διαδρομή (Πίστα 1) -> 98% διαδρομή (Πίστα 10)
-      };
     }
 
     function buildAllLevels() {
@@ -1193,17 +1186,15 @@
 
       for (let i = 0; i < TOTAL_LEVELS; i++) {
         const num = i + 1;
-        const pointsNeededForLevel = 16 + i;
+        const pointsNeededForLevel = 16 + Math.floor(i * 1.4);
         cumulativeTarget += pointsNeededForLevel;
         const p = presets[i];
+        const diff = getLevelDifficultyParams(i);
 
         const ballStyle = num === 10
           ? "rainbow"
-          : BALL_STYLES[(i * 3 + Math.floor(i / 10)) % BALL_STYLES.length];
+          : BALL_STYLES[(i * 3) % BALL_STYLES.length];
 
-        const diffParams = getLevelDifficultyParams(i);
-        const speed = diffParams.speed;
-        const gapRatio = diffParams.gapRatio;
         const quote = num === 10
           ? "Η κορυφή των 10 πιστών σου ανήκει!"
           : POSITIVE_QUOTES[i % POSITIVE_QUOTES.length];
@@ -1220,8 +1211,15 @@
           obsColor: p.obs,
           obsAccent: p.acc,
           starColor: p.star,
-          speed,
-          gapRatio,
+          speed: diff.speed,
+          gapRatio: diff.gapRatio,
+          spawnInterval: diff.spawnInterval,
+          barOscSpeed: diff.barOscSpeed,
+          barTravelRatio: diff.barTravelRatio,
+          barWidth: diff.barWidth,
+          difficultyLabel: diff.label,
+          difficultyColor: diff.color,
+          difficultyBorder: diff.border,
           award: getLevelAward(num),
           quote
         });
@@ -1288,16 +1286,16 @@
 
     let score = 0;
     let streak = 0;
-    let bestScore = Number(safeStorage.getItem("orbit100_best") || 0);
-    let unlockedLevel = Math.min(TOTAL_LEVELS, Math.max(1, Number(safeStorage.getItem("orbit100_unlocked") || 1)));
+    let bestScore = Number(safeStorage.getItem("orbit10_v2_best") || 0);
+    let unlockedLevel = Math.min(TOTAL_LEVELS, Math.max(1, Number(safeStorage.getItem("orbit10_v2_unlocked") || 1)));
     let collectedAwards = [];
-    try { collectedAwards = JSON.parse(safeStorage.getItem("orbit100_collected_awards") || "[]"); } catch (_) { collectedAwards = []; }
+    try { collectedAwards = JSON.parse(safeStorage.getItem("orbit10_v2_collected_awards") || "[]"); } catch (_) { collectedAwards = []; }
     if (!Array.isArray(collectedAwards)) collectedAwards = [];
     collectedAwards = collectedAwards.filter(n => Number.isInteger(n) && n >= 1 && n <= TOTAL_LEVELS);
 
     bestHud.textContent = `Ρεκόρ: ${bestScore}`;
 
-    let currentLevelIndex = Math.max(0, Math.min(TOTAL_LEVELS - 1, Number(safeStorage.getItem("orbit100_checkpoint") || 0)));
+    let currentLevelIndex = Math.max(0, Math.min(TOTAL_LEVELS - 1, Number(safeStorage.getItem("orbit10_v2_checkpoint") || 0)));
     let sessionAwards = [];
     let bannerTimeout = null;
 
@@ -1347,11 +1345,11 @@
     function awardMascotMarkup(levelNum, locked = false) {
       const n = Math.max(1, Math.min(10, Number(levelNum) || 1));
       const palettes = [
-        ["#42d9f5","#1479bd","#baf7ff"], ["#70e6a5","#16845c","#d2ffe3"],
-        ["#ffad68","#e65d70","#fff0a8"], ["#e9a2ff","#8054d6","#fce7ff"],
-        ["#ffe36e","#e99a35","#fff8c9"], ["#c5f1ff","#5b9bd5","#ffffff"],
-        ["#ff8b63","#c83f50","#ffe0a8"], ["#b7f36d","#3b985b","#e8ffc5"],
-        ["#ff9fd2","#bd65ce","#ffe5f3"], ["#b8a7ff","#6552cf","#fff1a8"]
+        ["#42d9f5", "#1479bd", "#baf7ff"], ["#70e6a5", "#16845c", "#d2ffe3"],
+        ["#ffad68", "#e65d70", "#fff0a8"], ["#e9a2ff", "#8054d6", "#fce7ff"],
+        ["#ffe36e", "#e99a35", "#fff8c9"], ["#c5f1ff", "#5b9bd5", "#ffffff"],
+        ["#ff8b63", "#c83f50", "#ffe0a8"], ["#b7f36d", "#3b985b", "#e8ffc5"],
+        ["#ff9fd2", "#bd65ce", "#ffe5f3"], ["#b8a7ff", "#6552cf", "#fff1a8"]
       ];
       const [main, dark, light] = palettes[n - 1];
       const shapes = [
@@ -1370,6 +1368,18 @@
       const eyes = isShape
         ? '<ellipse cx="39" cy="54" rx="6" ry="8" fill="#fff"/><ellipse cx="61" cy="54" rx="6" ry="8" fill="#fff"/><ellipse cx="40" cy="56" rx="3.5" ry="5" fill="#26345c"/><ellipse cx="62" cy="56" rx="3.5" ry="5" fill="#26345c"/>'
         : '<ellipse cx="38" cy="53" rx="8" ry="11" fill="#fff"/><ellipse cx="62" cy="53" rx="8" ry="11" fill="#fff"/><ellipse cx="40" cy="55" rx="4.5" ry="7" fill="#26345c"/><ellipse cx="64" cy="55" rx="4.5" ry="7" fill="#26345c"/><circle cx="41" cy="51" r="2.3" fill="#fff"/><circle cx="65" cy="51" r="2.3" fill="#fff"/>';
+      const extra = [
+        '<path d="M28 25 Q50 2 72 25" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>',
+        '<path d="M50 12 L55 24 L68 25 L58 34 L61 47 L50 40 L39 47 L42 34 L32 25 L45 24Z" fill="#eaffb8" stroke="#fff" stroke-width="2"/>',
+        '<path d="M30 26 L20 8 L43 20 M70 26 L80 8 L57 20" fill="#ffe0a8" stroke="#fff" stroke-width="2"/>',
+        '<path d="M50 9 L57 23 L73 25 L61 37 L64 53 L50 45 L36 53 L39 37 L27 25 L43 23Z" fill="#fff" opacity=".8"/>',
+        '<circle cx="50" cy="13" r="8" fill="#fff" stroke="#ffe36e" stroke-width="3"/>',
+        '<path d="M29 25 L23 10 L42 20 M71 25 L77 10 L58 20" fill="#fff" stroke="#9bdcff" stroke-width="2"/>',
+        '<path d="M29 27 L18 9 L43 21 M71 27 L82 9 L57 21" fill="#ffcf75" stroke="#fff" stroke-width="2"/>',
+        '<path d="M50 7 Q58 18 50 29 Q42 18 50 7Z" fill="#fff"/>',
+        '<path d="M50 8 C42 0 35 13 50 23 C65 13 58 0 50 8Z" fill="#fff"/>',
+        '<path d="M20 25 L16 5 L38 18 L50 2 L62 18 L84 5 L80 25Z" fill="#ffe36e" stroke="#fff4ba" stroke-width="2"/>'
+      ][n - 1];
       const mouth = n % 3 === 0
         ? '<path d="M44 69 Q50 62 56 69 Q50 79 44 69Z" fill="#71334f"/>'
         : '<path d="M44 68 Q50 75 56 68" fill="none" stroke="#71334f" stroke-width="2.8" stroke-linecap="round"/>';
@@ -1379,9 +1389,12 @@
         <defs><linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${light}"/><stop offset=".55" stop-color="${main}"/><stop offset="1" stop-color="${dark}"/></linearGradient></defs>
         <ellipse cx="50" cy="91" rx="25" ry="5" fill="#020617" opacity=".25"/>
         <g fill="url(#${uid})" stroke="${light}" stroke-width="2.8" stroke-linejoin="round">${shapes}</g>
+        <g>${extra}</g>
         ${eyes}
         ${mouth}
         <ellipse cx="25" cy="67" rx="5" ry="3" fill="#ff8ba7" opacity=".85"/><ellipse cx="75" cy="67" rx="5" ry="3" fill="#ff8ba7" opacity=".85"/>
+        <path d="M10 37 L13 29 L16 37 L24 40 L16 43 L13 51 L10 43 L3 40Z" fill="#fff5a8"/>
+        <path d="M82 30 L85 23 L88 30 L95 33 L88 36 L85 43 L82 36 L75 33Z" fill="#fff"/>
       </svg>`;
     }
 
@@ -1407,7 +1420,7 @@
         return `<span style="--a:${angle}deg;--d:${delay}s">${awardMascotMarkup(lvl.num)}</span>`;
       }).join("");
       finaleGathering.innerHTML = `
-        <div class="finale-orbit">${party}</div>
+        <div class="finale-orbit finale-full">${party}</div>
         <div class="finale-center">
           <div class="victory-ball" aria-label="Η μπάλα με το στέμμα">
             <span class="victory-crown">👑</span>
@@ -1447,7 +1460,7 @@
       }
       if (!collectedAwards.includes(lvlNum)) {
         collectedAwards.push(lvlNum);
-        safeStorage.setItem("orbit100_collected_awards", JSON.stringify(collectedAwards));
+        safeStorage.setItem("orbit10_v2_collected_awards", JSON.stringify(collectedAwards));
       }
       updateAwardsUI();
       showLevelReward(lvlNum, awardText);
@@ -1462,7 +1475,7 @@
       if (miniIcons) miniIcons.innerHTML = collectedAwards.slice(-3).map(n => awardMascotMarkup(n)).join("");
       showcaseBtn.textContent = `🏆 Βιβλιοθήκη Βραβείων (${totalCollected}/${TOTAL_LEVELS})`;
       awardsSummaryEl.textContent = totalCollected > 0
-        ? `Συλλογή Βραβείων: ${totalCollected} / ${TOTAL_LEVELS}`
+        ? `Κερδισμένα Βραβεία: ${totalCollected} / ${TOTAL_LEVELS}`
         : `10 Πίστες • Κέρδισε τα βραβεία σου!`;
 
       awardsPreviewEl.innerHTML = "";
@@ -1479,10 +1492,10 @@
     }
 
     function renderShowcaseGrid() {
-      const earnedLevels = LEVELS.filter((lvl) => collectedAwards.includes(lvl.num));
-      showcaseTitle.textContent = `🏆 Κερδισμένα Βραβεία (${earnedLevels.length}/${TOTAL_LEVELS})`;
+      showcaseTitle.textContent = `🏆 Κερδισμένα Βραβεία (${collectedAwards.length}/${TOTAL_LEVELS})`;
       showcaseGrid.innerHTML = "";
 
+      const earnedLevels = LEVELS.filter((lvl) => collectedAwards.includes(lvl.num));
       for (const lvl of earnedLevels) {
         const isMilestone = lvl.num === 10 || lvl.num === 5;
         const card = document.createElement("div");
@@ -1500,7 +1513,15 @@
           card.classList.add("reward-card-pop");
           const mascotNode = card.querySelector(".award-mascot");
           if (mascotNode) {
-            mascotNode.animate([{ transform: "scale(1) rotate(0deg)" }, { transform: "scale(1.28) rotate(12deg)" }, { transform: "scale(1) rotate(0deg)" }], { duration: 650, easing: "ease-out" });
+            mascotNode.animate(
+              [{ transform: "scale(1) rotate(0deg)" }, { transform: "scale(1.28) rotate(12deg)" }, { transform: "scale(1) rotate(0deg)" }],
+              { duration: 650, easing: "ease-out" }
+            );
+          }
+          const hint = card.querySelector(".s-play-hint");
+          if (hint) {
+            hint.textContent = "✨ Το δώρο σου!";
+            setTimeout(() => { if (hint.isConnected) hint.textContent = "▶ Πάτησέ με για ήχο!"; }, 1100);
           }
           try { playAwardSignature(lvl.num); } catch (e) {}
         });
@@ -1508,7 +1529,7 @@
       }
 
       if (showcaseGrid.children.length === 0) {
-        showcaseGrid.innerHTML = `<div style="grid-column:1/-1;color:#94a3b8;padding:24px;font-size:13px;text-align:center;">Δεν έχεις κερδίσει ακόμα κάποιο βραβείο. Ολοκλήρωσε την Πίστα 1 για να εμφανιστεί εδώ το πρώτο σου!</div>`;
+        showcaseGrid.innerHTML = `<div style="grid-column:1/-1;color:#94a3b8;padding:24px;font-size:13px;">Δεν έχεις κερδίσει κάποιο βραβείο ακόμα. Ολοκλήρωσε την 1η πίστα για να κερδίσεις το πρώτο σου δώρο!</div>`;
       }
     }
 
@@ -1519,7 +1540,9 @@
 
     showcaseBtn.addEventListener("click", openShowcase);
     document.getElementById("miniCollectionBtn").addEventListener("click", openShowcase);
-    closeShowcaseBtn.addEventListener("click", () => showcaseModal.classList.remove("open"));
+    closeShowcaseBtn.addEventListener("click", () => {
+      showcaseModal.classList.remove("open");
+    });
 
     resetProgressBtn.addEventListener("click", () => {
       collectedAwards = [];
@@ -1527,9 +1550,9 @@
       unlockedLevel = 1;
       score = 0;
       streak = 0;
-      safeStorage.removeItem("orbit100_collected_awards");
-      safeStorage.setItem("orbit100_unlocked", "1");
-      safeStorage.setItem("orbit100_checkpoint", "0");
+      safeStorage.removeItem("orbit10_v2_collected_awards");
+      safeStorage.setItem("orbit10_v2_unlocked", "1");
+      safeStorage.setItem("orbit10_v2_checkpoint", "0");
       populateLevelSelect();
       updateGiftHints();
       renderShowcaseGrid();
@@ -1543,15 +1566,14 @@
         opt.value = String(i);
         const isUnlocked = lvl.num <= unlockedLevel;
         opt.disabled = !isUnlocked;
-        const diffMeta = getDifficultyMeta(lvl.num);
         opt.textContent = isUnlocked
-          ? `Πίστα ${lvl.num}: ${lvl.name} (${diffMeta.label})`
-          : `🔒 Πίστα ${lvl.num} (${diffMeta.label})`;
+          ? `Πίστα ${lvl.num}: ${lvl.name} (${lvl.difficultyLabel})`
+          : `🔒 Πίστα ${lvl.num} (${lvl.difficultyLabel})`;
         startLevelSelect.appendChild(opt);
       }
       startLevelSelect.value = String(Math.min(unlockedLevel - 1, LEVELS.length - 1));
       if (continueBtn) {
-        const saved = Math.max(0, Math.min(TOTAL_LEVELS - 1, Number(safeStorage.getItem("orbit100_checkpoint") || 0)));
+        const saved = Math.max(0, Math.min(TOTAL_LEVELS - 1, Number(safeStorage.getItem("orbit10_v2_checkpoint") || 0)));
         const hasProgress = saved > 0 || unlockedLevel > 1 || collectedAwards.length > 0;
         continueBtn.style.display = hasProgress ? "block" : "none";
         continueBtn.disabled = !hasProgress;
@@ -1560,8 +1582,8 @@
       updateAwardsUI();
     }
     populateLevelSelect();
-    startBtn.textContent = "Παίξε";
 
+    startBtn.textContent = "Παίξε";
     const settingMusic = document.getElementById("settingMusic");
     const settingSound = document.getElementById("settingSound");
     const settingVibe = document.getElementById("settingVibe");
@@ -1584,34 +1606,28 @@
 
     settingMusic.addEventListener("change", () => {
       musicEnabled = settingMusic.checked;
-      safeStorage.setItem("orbit100_music", String(musicEnabled));
+      safeStorage.setItem("orbit10_v2_music", String(musicEnabled));
       if (musicEnabled && gameRunning && !paused) startHappyMusic();
       else stopHappyMusic();
     });
 
     settingSound.addEventListener("change", () => {
       soundEnabled = settingSound.checked;
-      safeStorage.setItem("orbit100_sound", String(soundEnabled));
+      safeStorage.setItem("orbit10_v2_sound", String(soundEnabled));
     });
 
     settingVibe.addEventListener("change", () => {
       vibeEnabled = settingVibe.checked;
-      safeStorage.setItem("orbit100_vibe", String(vibeEnabled));
+      safeStorage.setItem("orbit10_v2_vibe", String(vibeEnabled));
     });
 
     settingKids.addEventListener("change", () => {
       kidsMode = settingKids.checked;
       kidsModeToggle.checked = kidsMode;
-      updateHud();
-    });
-
-    kidsModeToggle.addEventListener("change", () => {
-      kidsMode = kidsModeToggle.checked;
-      updateHud();
     });
 
     continueBtn.addEventListener("click", () => {
-      const saved = Math.max(0, Math.min(unlockedLevel - 1, Number(safeStorage.getItem("orbit100_checkpoint") || 0)));
+      const saved = Math.max(0, Math.min(unlockedLevel - 1, Number(safeStorage.getItem("orbit10_v2_checkpoint") || 0)));
       startLevelSelect.value = String(saved);
       startGame();
     });
@@ -1628,6 +1644,10 @@
       clearTimeout(showGameMessage.timer);
       showGameMessage.timer = setTimeout(() => gameMessage.classList.remove("show"), duration);
     }
+
+    kidsModeToggle.addEventListener("change", () => {
+      kidsMode = kidsModeToggle.checked;
+    });
 
     function setPausedState(nextPaused) {
       if (!gameRunning) return;
@@ -1646,10 +1666,14 @@
 
     pauseBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (gameRunning) setPausedState(!paused);
+      if (gameRunning) {
+        setPausedState(!paused);
+      }
     });
 
-    resumeBtn.addEventListener("click", () => setPausedState(false));
+    resumeBtn.addEventListener("click", () => {
+      setPausedState(false);
+    });
 
     quitToMenuBtn.addEventListener("click", () => {
       paused = false;
@@ -1672,24 +1696,11 @@
       updateComboBadge();
     }
 
-    function initBgStars() {
-      bgStars = [];
-      for (let i = 0; i < 45; i++) {
-        bgStars.push({
-          x: Math.random() * (width || 400),
-          y: Math.random() * (height || 700),
-          size: 1 + Math.random() * 2.2,
-          speedFactor: 0.2 + Math.random() * 0.5,
-          alpha: 0.25 + Math.random() * 0.65
-        });
-      }
-    }
-
     function resizeCanvas() {
       const rect = canvas.parentElement.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      width = rect.width;
-      height = rect.height;
+      width = Math.max(280, rect.width || window.innerWidth || 360);
+      height = Math.max(420, rect.height || window.innerHeight || 640);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1697,13 +1708,12 @@
       if (!gameRunning) {
         player.y = height * 0.5;
       }
-      if (bgStars.length === 0) initBgStars();
     }
 
     window.addEventListener("resize", resizeCanvas);
     requestAnimationFrame(() => { resizeCanvas(); draw(0); });
     resizeCanvas();
-    if (typeof updateCrownProgress === "function") updateCrownProgress();
+    updateCrownProgress();
 
     function showBanner(title, sub, quote) {
       bannerTitle.textContent = title;
@@ -1718,11 +1728,10 @@
 
     function updateHud() {
       const lvl = LEVELS[currentLevelIndex];
-      const diffMeta = getDifficultyMeta(lvl.num);
       levelHud.textContent = `Πίστα ${lvl.num}/${TOTAL_LEVELS}`;
-      difficultyHud.textContent = kidsMode ? "🧸 Παιδική" : diffMeta.label;
-      difficultyHud.style.color = kidsMode ? "#6ee7b7" : diffMeta.color;
-      difficultyHud.style.borderColor = kidsMode ? "rgba(110, 231, 183, 0.5)" : diffMeta.border;
+      difficultyHud.textContent = lvl.difficultyLabel;
+      difficultyHud.style.color = lvl.difficultyColor;
+      difficultyHud.style.borderColor = lvl.difficultyBorder;
       scoreHud.textContent = `Σκορ: ${score} / ${lvl.targetScore}`;
       bestHud.textContent = `Ρεκόρ: ${bestScore}`;
       updateCrownProgress();
@@ -1730,7 +1739,7 @@
 
     function resetGame(selectedIdx = 0) {
       currentLevelIndex = Math.max(0, Math.min(LEVELS.length - 1, selectedIdx));
-      safeStorage.setItem("orbit100_checkpoint", String(currentLevelIndex));
+      safeStorage.setItem("orbit10_v2_checkpoint", String(currentLevelIndex));
       score = currentLevelIndex > 0 ? LEVELS[currentLevelIndex - 1].targetScore : 0;
       streak = 0;
       sessionAwards = [];
@@ -1764,13 +1773,12 @@
       overlay.classList.add("hidden");
       startHappyMusic();
       const lvl = LEVELS[currentLevelIndex];
-      const diffMeta = getDifficultyMeta(lvl.num);
       showBanner(
-        `Πίστα ${lvl.num}: ${lvl.name} (${kidsMode ? "🧸 Παιδική" : diffMeta.label})`,
-        `Δώρο πίστας: ${lvl.award}`,
+        `Πίστα ${lvl.num}: ${lvl.name}${kidsMode ? " (Παιδική)" : ""}`,
+        `${lvl.difficultyLabel} • Δώρο: ${lvl.award}`,
         lvl.quote
       );
-      showGameMessage("Άγγιξε και κράτησε για να ανέβεις • Οι μπάρες ανεβοκατεβαίνουν συνεχώς!", 3600);
+      showGameMessage("Άγγιξε και κράτησε για να ανέβεις • Άφησε για να κατέβεις", 3600);
       lastTime = performance.now();
       cancelAnimationFrame(animationId);
       animationId = requestAnimationFrame(loop);
@@ -1810,16 +1818,16 @@
       pauseOverlay.classList.remove("open");
 
       const finalLvl = LEVELS[LEVELS.length - 1];
-      safeStorage.setItem("orbit100_checkpoint", "0");
+      safeStorage.setItem("orbit10_v2_checkpoint", "0");
       recordAward(finalLvl.num, finalLvl.award);
       unlockedLevel = LEVELS.length;
-      safeStorage.setItem("orbit100_unlocked", String(unlockedLevel));
+      safeStorage.setItem("orbit10_v2_unlocked", String(unlockedLevel));
       populateLevelSelect();
       updateGiftHints();
 
       if (score > bestScore) {
         bestScore = score;
-        safeStorage.setItem("orbit100_best", String(bestScore));
+        safeStorage.setItem("orbit10_v2_best", String(bestScore));
       }
       updateHud();
       playVictorySound();
@@ -1864,11 +1872,11 @@
 
       if (score > bestScore) {
         bestScore = score;
-        safeStorage.setItem("orbit100_best", String(bestScore));
+        safeStorage.setItem("orbit10_v2_best", String(bestScore));
         bestHud.textContent = `Ρεκόρ: ${bestScore}`;
       }
 
-      safeStorage.setItem("orbit100_checkpoint", String(currentLevelIndex));
+      safeStorage.setItem("orbit10_v2_checkpoint", String(currentLevelIndex));
       startLevelSelect.value = String(currentLevelIndex);
       populateLevelSelect();
       startLevelSelect.value = String(currentLevelIndex);
@@ -1886,7 +1894,7 @@
       score += points;
       if (score > bestScore) {
         bestScore = score;
-        safeStorage.setItem("orbit100_best", String(bestScore));
+        safeStorage.setItem("orbit10_v2_best", String(bestScore));
       }
 
       const currentLvl = LEVELS[currentLevelIndex];
@@ -1895,20 +1903,19 @@
 
         if (currentLevelIndex < LEVELS.length - 1) {
           currentLevelIndex += 1;
-          safeStorage.setItem("orbit100_checkpoint", String(currentLevelIndex));
+          safeStorage.setItem("orbit10_v2_checkpoint", String(currentLevelIndex));
           if (currentLevelIndex + 1 > unlockedLevel) {
             unlockedLevel = currentLevelIndex + 1;
-            safeStorage.setItem("orbit100_unlocked", String(unlockedLevel));
+            safeStorage.setItem("orbit10_v2_unlocked", String(unlockedLevel));
           }
           const nextLvl = LEVELS[currentLevelIndex];
-          const nextDiff = getDifficultyMeta(nextLvl.num);
           happyFaceTimer = 1.4;
           updateGiftHints();
           playLevelUpSound();
           spawnExplosion(player.x, player.y, getBallColor(nextLvl, performance.now() / 1000), 24);
           showBanner(
-            `Πίστα ${nextLvl.num}: ${nextLvl.name} (${kidsMode ? "🧸 Παιδική" : nextDiff.label})`,
-            `Κέρδισες: ${currentLvl.award}`,
+            `Πίστα ${nextLvl.num}: ${nextLvl.name}!`,
+            `${nextLvl.difficultyLabel} • Κέρδισες: ${currentLvl.award}`,
             nextLvl.quote
           );
         } else {
@@ -1922,18 +1929,19 @@
 
     function spawnObstacle() {
       const lvl = LEVELS[currentLevelIndex];
-      const diffParams = getLevelDifficultyParams(currentLevelIndex);
-      const gapMult = kidsMode ? 1.32 : 1;
-      const gapHeight = Math.min(height * 0.64, Math.max(diffParams.minGapPx, height * lvl.gapRatio * gapMult));
-      const minBar = kidsMode ? 28 : 32;
+      const gapMult = kidsMode ? 1.24 : 1;
+      const gapHeight = Math.min(height * 0.64, Math.max(152, height * lvl.gapRatio * gapMult));
+      const minBar = kidsMode ? 28 : 34;
       const maxTop = Math.max(minBar + 20, height - gapHeight - minBar);
       const topHeight = minBar + Math.random() * (maxTop - minBar);
-      const obsWidth = 40 + currentLevelIndex * 2;
+      const obsWidth = lvl.barWidth;
       const obsX = width + obsWidth;
 
-      // Ομοιόμορφη αύξηση εύρους & ταχύτητας των μπαρών σε κάθε επόμενη πίστα
-      const motionStrength = Math.min(1.0, diffParams.barRange + Math.random() * 0.08) * (kidsMode ? 0.6 : 1);
-      const motionSpeed = (diffParams.barSpeed + Math.random() * 0.25) * (kidsMode ? 0.65 : 1);
+      // Κάθε ζεύγος μπαρών έχει διαφορετικό εύρος και ταχύτητα κίνησης πάνω-κάτω
+      const speedVariation = 0.8 + Math.random() * 0.45;
+      const motionSpeed = lvl.barOscSpeed * speedVariation * (kidsMode ? 0.72 : 1);
+      const travelVariation = 0.84 + Math.random() * 0.2;
+      const motionStrength = Math.min(1, lvl.barTravelRatio * travelVariation * (kidsMode ? 0.8 : 1));
       const motionPhase = Math.random() * Math.PI * 2;
 
       obstacles.push({
@@ -2001,8 +2009,8 @@
       if (titleEl.textContent !== "GAME OVER") startLevelSelect.value = "0";
       startGame();
     });
-    window.addEventListener("beforeunload", () => { if (gameRunning || paused) safeStorage.setItem("orbit100_checkpoint", String(currentLevelIndex)); });
-    document.addEventListener("visibilitychange", () => { if (document.hidden && (gameRunning || paused)) safeStorage.setItem("orbit100_checkpoint", String(currentLevelIndex)); });
+    window.addEventListener("beforeunload", () => { if (gameRunning || paused) safeStorage.setItem("orbit10_v2_checkpoint", String(currentLevelIndex)); });
+    document.addEventListener("visibilitychange", () => { if (document.hidden && (gameRunning || paused)) safeStorage.setItem("orbit10_v2_checkpoint", String(currentLevelIndex)); });
 
     let lastTime = performance.now();
 
@@ -2047,7 +2055,7 @@
 
     function update(dt) {
       const lvl = LEVELS[currentLevelIndex];
-      const speed = lvl.speed * (kidsMode ? 0.65 : 1);
+      const speed = lvl.speed * (kidsMode ? 0.68 : 1);
 
       if (invulnTimer > 0) invulnTimer = Math.max(0, invulnTimer - dt);
       if (happyFaceTimer > 0) happyFaceTimer = Math.max(0, happyFaceTimer - dt);
@@ -2056,16 +2064,8 @@
         updatePowerBadges();
       }
 
-      for (const s of bgStars) {
-        s.x -= speed * s.speedFactor * dt;
-        if (s.x < 0) {
-          s.x = width;
-          s.y = Math.random() * height;
-        }
-      }
-
-      const targetVy = holding ? (kidsMode ? -165 : -205) : (kidsMode ? 130 : 165);
-      const smoothing = kidsMode ? 8 : 10.2;
+      const targetVy = holding ? (kidsMode ? -175 : -215) : (kidsMode ? 140 : 170);
+      const smoothing = kidsMode ? 8.5 : 10.5;
       player.vy += (targetVy - player.vy) * Math.min(1, smoothing * dt);
       player.y += player.vy * dt;
 
@@ -2084,22 +2084,21 @@
       spawnTimer -= dt;
       if (spawnTimer <= 0) {
         spawnObstacle();
-        const diffParams = getLevelDifficultyParams(currentLevelIndex);
-        spawnTimer = diffParams.spawnInterval * (kidsMode ? 1.32 : 1);
+        spawnTimer = lvl.spawnInterval * (kidsMode ? 1.24 : 1);
       }
 
-      const hitRadius = player.radius * (kidsMode ? 0.58 : 0.68);
+      const hitRadius = player.radius * (kidsMode ? 0.58 : 0.66);
 
       for (let i = obstacles.length - 1; i >= 0; i--) {
         const obs = obstacles[i];
         obs.x -= speed * dt;
         obs.motionTime += dt;
 
-        // Καθαρή, συνεχής κατακόρυφη κίνηση: κάθε μπάρα ανεβαίνει και κατεβαίνει διαρκώς!
-        const minCenter = 32 + obs.gapHeight * 0.5;
-        const maxCenter = height - 32 - obs.gapHeight * 0.5;
+        // Συνεχής, ορατή κατακόρυφη κίνηση πάνω-κάτω σε κάθε ζεύγος μπαρών
+        const minCenter = 34 + obs.gapHeight * 0.5;
+        const maxCenter = height - 34 - obs.gapHeight * 0.5;
         const middleCenter = (minCenter + maxCenter) * 0.5;
-        const travel = Math.max(0, (maxCenter - minCenter) * 0.5 * Math.min(1, obs.motionStrength));
+        const travel = Math.max(0, (maxCenter - minCenter) * 0.5 * obs.motionStrength);
         const wave = Math.sin(obs.motionTime * obs.motionSpeed + obs.motionPhase);
         const center = middleCenter + wave * travel;
         obs.topHeight = center - obs.gapHeight * 0.5;
@@ -2144,7 +2143,7 @@
         b.x -= speed * dt;
         b.pulse += dt * 5;
         if (b.movesGently) {
-          b.baseY += Math.sin(b.pulse * 0.7) * 24 * dt;
+          b.baseY += Math.sin(b.pulse * 0.75) * 26 * dt;
           b.y = b.baseY;
         }
 
@@ -2290,6 +2289,7 @@
       const colors = palettes[Math.max(0, Math.min(9, world || 0))];
       const drift = timeSec * (8 + world * 1.3);
       ctx.save();
+
       for (let i = 0; i < 5; i++) {
         const x = w * (0.12 + i * 0.2) + Math.sin(timeSec * 0.13 + i * 1.7) * w * 0.055;
         const y = h * (0.18 + (i % 3) * 0.22) + Math.cos(timeSec * 0.16 + i) * 16;
@@ -2302,7 +2302,7 @@
         ctx.fillStyle = nebula;
         ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
       }
-      ctx.globalAlpha = 0.92;
+
       for (let i = 0; i < 46; i++) {
         const x = ((i * 83.17 + (i % 4) * drift * 0.12) % (w + 20) + w + 20) % w;
         const y = ((i * 137.31) % h);
@@ -2317,6 +2317,7 @@
         ctx.fill();
       }
       ctx.shadowBlur = 0;
+
       const cometPhase = (timeSec * (0.16 + world * 0.008)) % 1;
       const cometX = cometPhase * (w + 90) - 45;
       const cometY = h * (0.12 + (world % 4) * 0.075);
@@ -2359,7 +2360,7 @@
         ctx.fillRect(obs.x + 4, Math.max(0, obs.topHeight - 6), obs.width - 8, 4);
         ctx.fillRect(obs.x + 4, obs.bottomY + 2, obs.width - 8, 4);
         ctx.save();
-        ctx.globalAlpha = .28;
+        ctx.globalAlpha = 0.28;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(obs.x + 8, 0, 2, Math.max(0, obs.topHeight - 12));
         ctx.fillRect(obs.x + 8, obs.bottomY + 12, 2, Math.max(0, height - obs.bottomY - 12));
@@ -2505,7 +2506,7 @@
           ctx.font = `${tokenRadius * 1.45}px "Apple Color Emoji","Segoe UI Emoji",sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText(MEDAL_ICONS[levelNum - 1], ax, ay + .4);
+          ctx.fillText(MEDAL_ICONS[levelNum - 1], ax, ay + 0.4);
           ctx.restore();
         });
         ctx.restore();
@@ -2531,9 +2532,9 @@
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = "#fff7cc";
-        for (const x of [-player.radius * .68, 0, player.radius * .68]) {
+        for (const x of [-player.radius * 0.68, 0, player.radius * 0.68]) {
           ctx.beginPath();
-          ctx.arc(x, -player.radius * .76, 2.3, 0, Math.PI * 2);
+          ctx.arc(x, -player.radius * 0.76, 2.3, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.restore();
@@ -2551,4 +2552,4 @@
     }
   </script>
 </body>
-</html>
+</html
