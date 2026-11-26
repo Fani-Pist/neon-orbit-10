@@ -782,14 +782,11 @@
 
     <div id="showcase-modal">
       <div class="showcase-header">
-        <h2 id="showcaseTitle">🏆 Βιτρίνα Βραβείων (0/10)</h2>
+        <h2 id="showcaseTitle">🏆 Κερδισμένα Βραβεία (0/10)</h2>
         <button id="closeShowcaseBtn" class="close-showcase-btn">Κλείσιμο ✕</button>
       </div>
       <div class="showcase-controls">
-        <div class="filter-group">
-          <button id="filterAllBtn" class="filter-btn active">Όλα (10)</button>
-          <button id="filterEarnedBtn" class="filter-btn">Κερδισμένα</button>
-        </div>
+        <div id="earnedSummaryBadge" style="font-size:12px;font-weight:700;color:#fde047;">✨ Εμφανίζονται μόνο όσα έχεις κερδίσει</div>
         <button id="resetProgressBtn" class="reset-btn">Νέα Αρχή</button>
       </div>
       <div id="showcase-grid"></div>
@@ -1271,8 +1268,6 @@
     const showcaseBtn = document.getElementById("showcaseBtn");
     const showcaseModal = document.getElementById("showcase-modal");
     const closeShowcaseBtn = document.getElementById("closeShowcaseBtn");
-    const filterAllBtn = document.getElementById("filterAllBtn");
-    const filterEarnedBtn = document.getElementById("filterEarnedBtn");
     const resetProgressBtn = document.getElementById("resetProgressBtn");
     const showcaseTitle = document.getElementById("showcaseTitle");
     const showcaseGrid = document.getElementById("showcase-grid");
@@ -1290,7 +1285,6 @@
     let victoryMode = false;
     let holding = false;
     let kidsMode = false;
-    let showcaseFilter = "all";
 
     let score = 0;
     let streak = 0;
@@ -1485,20 +1479,17 @@
     }
 
     function renderShowcaseGrid() {
-      showcaseTitle.textContent = `🏆 Βιτρίνα Βραβείων (${collectedAwards.length}/${TOTAL_LEVELS})`;
+      const earnedLevels = LEVELS.filter((lvl) => collectedAwards.includes(lvl.num));
+      showcaseTitle.textContent = `🏆 Κερδισμένα Βραβεία (${earnedLevels.length}/${TOTAL_LEVELS})`;
       showcaseGrid.innerHTML = "";
 
-      for (const lvl of LEVELS) {
-        const isUnlocked = collectedAwards.includes(lvl.num);
-        if (!isUnlocked) continue;
-        if (showcaseFilter === "earned" && !isUnlocked) continue;
-
+      for (const lvl of earnedLevels) {
         const isMilestone = lvl.num === 10 || lvl.num === 5;
         const card = document.createElement("div");
-        card.className = `showcase-item ${isUnlocked ? "unlocked" : ""} ${isMilestone ? "milestone" : ""}`;
+        card.className = `showcase-item unlocked ${isMilestone ? "milestone" : ""}`;
         const awardLabel = lvl.award.replace(/^\S+\s*/, "");
         card.innerHTML = `
-          <div class="showcase-art" aria-hidden="true">${awardMascotMarkup(lvl.num, !isUnlocked)}</div>
+          <div class="showcase-art" aria-hidden="true">${awardMascotMarkup(lvl.num, false)}</div>
           <div class="s-lvl">Πίστα ${lvl.num} • ${lvl.name}</div>
           <div class="s-award">${awardLabel}</div>
           <div class="s-play-hint" style="color:#67e8f9;font-size:9px;margin-top:4px;font-weight:800">▶ Πάτησέ με για ήχο!</div>
@@ -1517,7 +1508,7 @@
       }
 
       if (showcaseGrid.children.length === 0) {
-        showcaseGrid.innerHTML = `<div style="grid-column:1/-1;color:#94a3b8;padding:24px;font-size:13px;">Η βιβλιοθήκη είναι άδεια για την ώρα. Κέρδισε το πρώτο σου βραβείο μέσα στο παιχνίδι!</div>`;
+        showcaseGrid.innerHTML = `<div style="grid-column:1/-1;color:#94a3b8;padding:24px;font-size:13px;text-align:center;">Δεν έχεις κερδίσει ακόμα κάποιο βραβείο. Ολοκλήρωσε την Πίστα 1 για να εμφανιστεί εδώ το πρώτο σου!</div>`;
       }
     }
 
@@ -1529,20 +1520,6 @@
     showcaseBtn.addEventListener("click", openShowcase);
     document.getElementById("miniCollectionBtn").addEventListener("click", openShowcase);
     closeShowcaseBtn.addEventListener("click", () => showcaseModal.classList.remove("open"));
-
-    filterAllBtn.addEventListener("click", () => {
-      showcaseFilter = "all";
-      filterAllBtn.classList.add("active");
-      filterEarnedBtn.classList.remove("active");
-      renderShowcaseGrid();
-    });
-
-    filterEarnedBtn.addEventListener("click", () => {
-      showcaseFilter = "earned";
-      filterEarnedBtn.classList.add("active");
-      filterAllBtn.classList.remove("active");
-      renderShowcaseGrid();
-    });
 
     resetProgressBtn.addEventListener("click", () => {
       collectedAwards = [];
